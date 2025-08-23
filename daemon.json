@@ -1,0 +1,12 @@
+{
+    "dns": ["8.8.8.8", "8.8.4.4", "1.1.1.1"],
+    "max-concurrent-downloads": 10,
+    "max-concurrent-uploads": 10,
+    "registry-mirrors": ["https://registry.docker-cn.com", "https://docker.mirrors.ustc.edu.cn"],
+    "insecure-registries": [],
+    "debug": true,
+    "experimental": true,
+    "features": {
+        "buildkit": true
+    }
+}

@@ -128,7 +128,7 @@ func main() {
 		common.SysError(fmt.Sprintf("panic detected: %v", err))
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": gin.H{
-				"message": fmt.Sprintf("Panic detected, error: %v. Please submit a issue here: https://github.com/Calcium-Ion/Knight Omega", err),
+				"message": fmt.Sprintf("Panic detected, error: %v. Please submit a issue here: https://github.com/Calcium-Ion/new-api", err),
 				"type":    "new_api_panic",
 			},
 		})
@@ -184,6 +184,12 @@ func InitResources() error {
 	err = model.InitDB()
 	if err != nil {
 		common.FatalLog("failed to initialize database: " + err.Error())
+		return err
+	}
+
+	err = model.CreateRootAccountIfNeed()
+	if err != nil {
+		common.FatalLog("failed to create root account: " + err.Error())
 		return err
 	}
 
