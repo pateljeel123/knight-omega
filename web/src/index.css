@@ -616,3 +616,857 @@ html:not(.dark) .blur-ball-indigo {
 html:not(.dark) .blur-ball-teal {
   opacity: 0.2;
 }
+
+/* ==================== Enhanced Home Page Sections ==================== */
+/* Floating animation for feature cards */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.feature-card {
+  animation: float 6s ease-in-out infinite;
+}
+
+.feature-card:nth-child(2) {
+  animation-delay: -2s;
+}
+
+.feature-card:nth-child(3) {
+  animation-delay: -4s;
+}
+
+/* Pulse animation for statistics */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
+  }
+}
+
+.stat-item {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.stat-item:nth-child(2) {
+  animation-delay: -0.75s;
+}
+
+.stat-item:nth-child(3) {
+  animation-delay: -1.5s;
+}
+
+.stat-item:nth-child(4) {
+  animation-delay: -2.25s;
+}
+
+/* Gradient text animation */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.gradient-text {
+  background: linear-gradient(-45deg, #6366f1, #8b5cf6, #06b6d4, #10b981);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-shift 3s ease infinite;
+}
+
+/* Step connection line animation */
+@keyframes flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.step-connection {
+  background: linear-gradient(90deg, transparent 0%, currentColor 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: flow 2s linear infinite;
+}
+
+/* Hover effects for interactive elements */
+.interactive-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.interactive-card:hover {
+  transform: translateY(-8px) scale(1.02);
+}
+
+/* Glass morphism effect */
+.glass-effect {
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
+.dark .glass-effect {
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive enhancements */
+@media (max-width: 768px) {
+  .feature-card {
+    animation: none;
+  }
+  
+  .stat-item {
+    animation: none;
+  }
+}
+
+/* Custom scrollbar for better UX */
+.custom-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: rgba(var(--semi-grey-2), 0.3);
+  border-radius: 3px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--semi-grey-2), 0.5);
+}
+
+/* ==================== Unique Interactive Elements ==================== */
+
+/* Floating particles animation */
+.floating-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(99, 102, 241, 0.6);
+  border-radius: 50%;
+  animation: float-particle 15s infinite linear;
+}
+
+.particle:nth-child(2n) {
+  background: rgba(139, 92, 246, 0.6);
+  animation-duration: 20s;
+  animation-delay: -5s;
+}
+
+.particle:nth-child(3n) {
+  background: rgba(6, 182, 212, 0.6);
+  animation-duration: 25s;
+  animation-delay: -10s;
+}
+
+.particle:nth-child(4n) {
+  background: rgba(16, 185, 129, 0.6);
+  animation-duration: 18s;
+  animation-delay: -15s;
+}
+
+@keyframes float-particle {
+  0% {
+    transform: translateY(100vh) translateX(0px) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) translateX(100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Interactive code preview */
+.code-preview-container {
+  background: rgba(15, 23, 42, 0.95);
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  backdrop-filter: blur(20px);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.code-preview-container:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.code-preview-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 0.5rem;
+}
+
+.code-preview-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.dot-red { background: #ef4444; }
+.dot-yellow { background: #f59e0b; }
+.dot-green { background: #10b981; }
+
+.code-preview-content {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: #e2e8f0;
+}
+
+.code-line {
+  display: block;
+  padding: 0.125rem 0;
+}
+
+.code-comment { color: #64748b; }
+.code-keyword { color: #8b5cf6; }
+.code-string { color: #10b981; }
+.code-number { color: #f59e0b; }
+.code-function { color: #06b6d4; }
+
+/* Typing animation for code */
+.typing-animation {
+  border-right: 2px solid #8b5cf6;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { border-color: transparent; }
+  51%, 100% { border-color: #8b5cf6; }
+}
+
+/* Interactive testimonials carousel */
+.testimonials-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.testimonial-card {
+  padding: 2rem;
+  text-align: center;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: all 0.5s ease;
+}
+
+.testimonial-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.testimonial-text {
+  font-style: italic;
+  margin-bottom: 1rem;
+  color: var(--semi-color-text-1);
+  line-height: 1.6;
+}
+
+.testimonial-author {
+  font-weight: 600;
+  color: var(--semi-color-text-0);
+}
+
+.testimonial-role {
+  font-size: 0.875rem;
+  color: var(--semi-color-text-2);
+}
+
+/* Live status indicators */
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #10b981;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: #10b981;
+  border-radius: 50%;
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+}
+
+/* Interactive pricing cards */
+.pricing-preview-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.pricing-preview-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.pricing-preview-card:hover::before {
+  left: 100%;
+}
+
+.pricing-preview-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.pricing-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 1rem;
+}
+
+.pricing-amount {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--semi-color-text-0);
+  margin-bottom: 0.5rem;
+}
+
+.pricing-period {
+  color: var(--semi-color-text-2);
+  font-size: 0.875rem;
+  margin-bottom: 1.5rem;
+}
+
+.pricing-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pricing-feature {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  color: var(--semi-color-text-1);
+  font-size: 0.875rem;
+}
+
+.pricing-feature-icon {
+  color: #10b981;
+  font-weight: bold;
+}
+
+/* Morphing shapes background */
+.morphing-shapes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.morphing-shape {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  animation: morph 20s infinite ease-in-out;
+}
+
+.shape-1 {
+  width: 300px;
+  height: 300px;
+  background: linear-gradient(45deg, #6366f1, #8b5cf6);
+  top: 10%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.shape-2 {
+  width: 200px;
+  height: 200px;
+  background: linear-gradient(45deg, #06b6d4, #10b981);
+  top: 60%;
+  right: 10%;
+  animation-delay: -7s;
+}
+
+.shape-3 {
+  width: 250px;
+  height: 250px;
+  background: linear-gradient(45deg, #f59e0b, #ef4444);
+  bottom: 20%;
+  left: 50%;
+  animation-delay: -14s;
+}
+
+@keyframes morph {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    border-radius: 50%;
+  }
+  25% {
+    transform: scale(1.2) rotate(90deg);
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  }
+  50% {
+    transform: scale(0.8) rotate(180deg);
+    border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+  }
+  75% {
+    transform: scale(1.1) rotate(270deg);
+    border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%;
+  }
+}
+
+/* Interactive hover effects for icons */
+.interactive-icon {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.interactive-icon:hover {
+  transform: scale(1.2) rotate(10deg);
+  filter: drop-shadow(0 8px 16px rgba(99, 102, 241, 0.3));
+}
+
+/* ==================== Ultra-Unique "Why Choose Us?" Section ==================== */
+
+/* Hexagonal grid layout */
+.hexagon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  position: relative;
+}
+
+.hexagon-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  backdrop-filter: blur(20px);
+  border: 2px solid transparent;
+  border-radius: 30px;
+  padding: 3rem 2rem;
+  text-align: center;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  transform-style: preserve-3d;
+}
+
+.hexagon-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4, #10b981);
+  border-radius: 30px;
+  padding: 2px;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.hexagon-card:hover::before {
+  opacity: 1;
+}
+
+.hexagon-card:hover {
+  transform: translateY(-20px) rotateX(10deg) rotateY(5deg) scale(1.05);
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Floating icon with orbital animation */
+.floating-icon-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 2rem;
+}
+
+.floating-icon-orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  border: 2px solid rgba(99, 102, 241, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: orbit-rotate 10s linear infinite;
+}
+
+.floating-icon-orbit::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background: #6366f1;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 10px #6366f1;
+}
+
+.floating-icon-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 10px 30px rgba(99, 102, 241, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.4s ease;
+}
+
+.hexagon-card:hover .floating-icon-center {
+  transform: translate(-50%, -50%) scale(1.2) rotateY(180deg);
+  box-shadow:
+    0 15px 40px rgba(99, 102, 241, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+@keyframes orbit-rotate {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Animated text reveal */
+.animated-title {
+  position: relative;
+  overflow: hidden;
+}
+
+.animated-title::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: text-reveal 3s ease-in-out infinite;
+}
+
+@keyframes text-reveal {
+  0% { left: -100%; }
+  50% { left: 100%; }
+  100% { left: 100%; }
+}
+
+/* Holographic effect */
+.holographic-card {
+  position: relative;
+  background: linear-gradient(45deg,
+    rgba(255, 0, 150, 0.1) 0%,
+    rgba(0, 255, 255, 0.1) 25%,
+    rgba(255, 255, 0, 0.1) 50%,
+    rgba(255, 0, 150, 0.1) 75%,
+    rgba(0, 255, 255, 0.1) 100%);
+  background-size: 400% 400%;
+  animation: holographic-shift 4s ease-in-out infinite;
+}
+
+@keyframes holographic-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Liquid morphing background */
+.liquid-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 30px;
+  z-index: -1;
+}
+
+.liquid-shape {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, #6366f1, #8b5cf6, #06b6d4);
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  animation: liquid-morph 8s ease-in-out infinite;
+  opacity: 0.1;
+}
+
+@keyframes liquid-morph {
+  0%, 100% {
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    transform: translate(-25%, -25%) rotate(0deg);
+  }
+  25% {
+    border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%;
+    transform: translate(-35%, -15%) rotate(90deg);
+  }
+  50% {
+    border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%;
+    transform: translate(-15%, -35%) rotate(180deg);
+  }
+  75% {
+    border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%;
+    transform: translate(-25%, -25%) rotate(270deg);
+  }
+}
+
+/* Neon glow effect */
+.neon-glow {
+  position: relative;
+  color: #000;
+  text-shadow:
+    0 0 5px currentColor,
+    0 0 10px currentColor,
+    0 0 15px currentColor,
+    0 0 20px #000,
+    0 0 35px #000,
+    0 0 40px #000;
+  animation: neon-flicker 2s ease-in-out infinite alternate;
+}
+
+@keyframes neon-flicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+    text-shadow:
+      0 0 5px currentColor,
+      0 0 10px currentColor,
+      0 0 15px currentColor,
+      0 0 20px #000,
+      0 0 35px #000,
+      0 0 40px #000;
+  }
+  20%, 24%, 55% {
+    text-shadow: none;
+  }
+}
+
+/* Particle trail effect */
+.particle-trail {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.trail-particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: #6366f1;
+  border-radius: 50%;
+  animation: trail-float 6s linear infinite;
+}
+
+.trail-particle:nth-child(2n) { animation-delay: -1s; background: #8b5cf6; }
+.trail-particle:nth-child(3n) { animation-delay: -2s; background: #06b6d4; }
+.trail-particle:nth-child(4n) { animation-delay: -3s; background: #10b981; }
+
+@keyframes trail-float {
+  0% {
+    transform: translateY(100%) translateX(0) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100%) translateX(50px) scale(0);
+    opacity: 0;
+  }
+}
+
+/* Interactive hover zones */
+.hover-zone {
+  position: relative;
+  cursor: pointer;
+}
+
+.hover-zone::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+  border-radius: 40px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.hover-zone:hover::before {
+  opacity: 1;
+}
+
+/* Responsive adjustments for unique elements */
+@media (max-width: 768px) {
+  .floating-particles {
+    display: none;
+  }
+  
+  .morphing-shapes {
+    display: none;
+  }
+  
+  .code-preview-container {
+    padding: 1rem;
+  }
+  
+  .pricing-amount {
+    font-size: 2rem;
+  }
+  
+  .hexagon-card {
+    padding: 2rem 1.5rem;
+  }
+  
+  .hexagon-card:hover {
+    transform: translateY(-10px) scale(1.02);
+  }
+  
+  .floating-icon-container {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .floating-icon-center {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .floating-icon-orbit {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* ==================== Custom Loader Styles ==================== */
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 80px;
+  aspect-ratio: 1;
+  border: 10px solid #0000;
+  box-sizing: border-box;
+  background:
+    radial-gradient(farthest-side,#fff 98%,#0000) 0    0/20px 20px,
+    radial-gradient(farthest-side,#fff 98%,#0000) 100% 0/20px 20px,
+    radial-gradient(farthest-side,#fff 98%,#0000) 100% 100%/20px 20px,
+    radial-gradient(farthest-side,#fff 98%,#0000) 0 100%/20px 20px,
+    linear-gradient(#fff 0 0) 50%/40px 40px,
+    #000;
+  background-repeat:no-repeat;
+  filter: blur(4px) contrast(10);
+  animation: l12 0.8s infinite;
+}
+@keyframes l12 {
+  100%  {background-position:100% 0,100% 100%,0 100%,0 0,center}
+}

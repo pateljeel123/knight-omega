@@ -5,7 +5,7 @@ import { useSetTheme, useTheme } from '../../context/Theme/index.js';
 import { useTranslation } from 'react-i18next';
 import { API, getLogo, getSystemName, showSuccess, stringToColor } from '../../helpers/index.js';
 import fireworks from 'react-fireworks';
-import { CN, GB } from 'country-flag-icons/react/3x2';
+import { GB, IN, RU } from 'country-flag-icons/react/3x2';
 import NoticeModal from './NoticeModal.js';
 
 import {
@@ -209,6 +209,8 @@ const HeaderBar = ({ onMobileMenuToggle, drawerOpen }) => {
 
   const handleLanguageChange = (lang) => {
     i18n.changeLanguage(lang);
+    console.log(`i18n language after change: ${i18n.language}`); // Log current language
+    localStorage.setItem('i18nextLng', lang); // Persist selected language
     setMobileMenuOpen(false);
   };
 
@@ -595,11 +597,11 @@ const HeaderBar = ({ onMobileMenuToggle, drawerOpen }) => {
               render={
                 <Dropdown.Menu className="!bg-semi-color-bg-overlay !border-semi-color-border !shadow-lg !rounded-lg dark:!bg-gray-700 dark:!border-gray-600">
                   <Dropdown.Item
-                    onClick={() => handleLanguageChange('zh')}
-                    className={`!flex !items-center !gap-2 !px-3 !py-1.5 !text-sm !text-semi-color-text-0 dark:!text-gray-200 ${currentLang === 'zh' ? '!bg-semi-color-primary-light-default dark:!bg-blue-600 !font-semibold' : 'hover:!bg-semi-color-fill-1 dark:hover:!bg-gray-600'}`}
+                    onClick={() => handleLanguageChange('hi')}
+                    className={`!flex !items-center !gap-2 !px-3 !py-1.5 !text-sm !text-semi-color-text-0 dark:!text-gray-200 ${currentLang === 'hi' ? '!bg-semi-color-primary-light-default dark:!bg-blue-600 !font-semibold' : 'hover:!bg-semi-color-fill-1 dark:hover:!bg-gray-600'}`}
                   >
-                    <CN title="中文" className="!w-5 !h-auto" />
-                    <span>中文</span>
+                    <IN title="Hindi" className="!w-5 !h-auto" />
+                    <span>Hindi</span>
                   </Dropdown.Item>
                   <Dropdown.Item
                     onClick={() => handleLanguageChange('en')}
@@ -607,6 +609,13 @@ const HeaderBar = ({ onMobileMenuToggle, drawerOpen }) => {
                   >
                     <GB title="English" className="!w-5 !h-auto" />
                     <span>English</span>
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => handleLanguageChange('ru')}
+                    className={`!flex !items-center !gap-2 !px-3 !py-1.5 !text-sm !text-semi-color-text-0 dark:!text-gray-200 ${currentLang === 'ru' ? '!bg-semi-color-primary-light-default dark:!bg-blue-600 !font-semibold' : 'hover:!bg-semi-color-fill-1 dark:hover:!bg-gray-600'}`}
+                  >
+                    <RU title="Russian" className="!w-5 !h-auto" />
+                    <span>Russian</span>
                   </Dropdown.Item>
                 </Dropdown.Menu>
               }

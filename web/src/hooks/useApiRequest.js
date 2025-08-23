@@ -136,7 +136,7 @@ export const useApiRequest = (
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Knight Omega-User': getUserIdFromLocalStorage(),
+          'New-Api-User': getUserIdFromLocalStorage(),
         },
         body: JSON.stringify(payload),
       });
@@ -236,7 +236,7 @@ export const useApiRequest = (
     const source = new SSE(API_ENDPOINTS.CHAT_COMPLETIONS, {
       headers: {
         'Content-Type': 'application/json',
-        'Knight Omega-User': getUserIdFromLocalStorage(),
+        'New-Api-User': getUserIdFromLocalStorage(),
       },
       method: 'POST',
       payload: JSON.stringify(payload),

@@ -526,7 +526,7 @@ const TokensTable = () => {
     }
     if (url.includes('{cherryConfig}') === true) {
       let cherryConfig = {
-        id: 'Knight Omega',
+        id: 'new-api',
         baseUrl: serverAddress,
         apiKey: 'sk-' + record.key,
       }

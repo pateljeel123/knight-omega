@@ -168,18 +168,18 @@ const OtherSetting = () => {
       // Option 1: Use a public CORS proxy service
       // const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
       // const res = await API.get(
-      //   `${proxyUrl}https://api.github.com/repos/Calcium-Ion/Knight Omega/releases/latest`,
+      //   `${proxyUrl}https://api.github.com/repos/Calcium-Ion/new-api/releases/latest`,
       // );
 
       // Option 2: Use the JSON proxy approach which often works better with GitHub API
       const res = await fetch(
-        'https://api.github.com/repos/Calcium-Ion/Knight Omega/releases/latest',
+        'https://api.github.com/repos/Calcium-Ion/new-api/releases/latest',
         {
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
             // Adding User-Agent which is often required by GitHub API
-            'User-Agent': 'Knight Omega-update-checker',
+            'User-Agent': 'new-api-update-checker',
           },
         },
       ).then((response) => response.json());
@@ -233,7 +233,7 @@ const OtherSetting = () => {
   // Function to open GitHub release page
   const openGitHubRelease = () => {
     window.open(
-      `https://github.com/Calcium-Ion/Knight Omega/releases/tag/${updateData.tag_name}`,
+      `https://github.com/Calcium-Ion/new-api/releases/tag/${updateData.tag_name}`,
       '_blank',
     );
   };
@@ -370,7 +370,7 @@ const OtherSetting = () => {
                 fullMode={false}
                 type='info'
                 description={t(
-                  '移除 One API 的版权标识必须首先获得授权，项目维护需要花费大量精力，如果本项目对你有意义，请主动支持本项目',
+                  '移除 Knight Omega 的版权标识必须首先获得授权，项目维护需要花费大量精力，如果本项目对你有意义，请主动支持本项目',
                 )}
                 closeIcon={null}
                 style={{ marginTop: 15 }}

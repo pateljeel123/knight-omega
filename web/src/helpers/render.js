@@ -1638,8 +1638,8 @@ export function rehypeSplitWordsIntoSpans(options = {}) {
         node.children.forEach((child) => {
           if (child.type === 'text') {
             try {
-              // 使用 Intl.Segmenter 精准拆分中英文及标点
-              const segmenter = new Intl.Segmenter('zh', {
+              // 使用 Intl.Segmenter 精准拆分当前语言及标点
+              const segmenter = new Intl.Segmenter(i18next.language, { // Use current language
                 granularity: 'word',
               });
               const segments = segmenter.segment(child.value);

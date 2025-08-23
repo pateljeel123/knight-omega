@@ -42,21 +42,21 @@ const About = () => {
       <p>{t('可在设置页面设置关于内容，支持 HTML & Markdown')}</p>
       {t('Knight Omega项目仓库地址：')}
       <a
-        href='https://github.com/QuantumNous/Knight Omega'
+        href='http://localhost:5173/'
         target="_blank"
         rel="noopener noreferrer"
         className="!text-semi-color-primary"
       >
-        https://github.com/QuantumNous/Knight Omega
+        http://localhost:5173/
       </a>
       <p>
         <a
-          href="https://github.com/QuantumNous/Knight Omega"
+          href="http://localhost:5173/"
           target="_blank"
           rel="noopener noreferrer"
           className="!text-semi-color-primary"
         >
-          NewAPI
+          Newapi
         </a> {t('© {{currentYear}}', { currentYear })} <a
           href="https://github.com/QuantumNous"
           target="_blank"
@@ -70,7 +70,7 @@ const About = () => {
           rel="noopener noreferrer"
           className="!text-semi-color-primary"
         >
-          One API v0.5.4
+          Knight Omega v0.5.4
         </a> © 2023 <a
           href="https://github.com/songquanpeng"
           target="_blank"
@@ -92,7 +92,7 @@ const About = () => {
         </a>
         {t('授权，需在遵守')}
         <a
-          href="https://github.com/QuantumNous/Knight Omega/blob/main/LICENSE"
+          href="http://localhost:5173//blob/main/LICENSE"
           target="_blank"
           rel="noopener noreferrer"
           className="!text-semi-color-primary"
