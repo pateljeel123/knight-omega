@@ -22,7 +22,7 @@ type ClaudeError struct {
 type ErrorType string
 
 const (
-	ErrorTypeNewAPIError     ErrorType = "new_api_error"
+	ErrorTypeNewapiError     ErrorType = "knightomega_api_error"
 	ErrorTypeOpenAIError     ErrorType = "openai_error"
 	ErrorTypeClaudeError     ErrorType = "claude_error"
 	ErrorTypeMidjourneyError ErrorType = "midjourney_error"
@@ -72,7 +72,7 @@ const (
 	ErrorCodePreConsumeTokenQuotaFailed ErrorCode = "pre_consume_token_quota_failed"
 )
 
-type NewAPIError struct {
+type NewapiError struct {
 	Err        error
 	RelayError any
 	ErrorType  ErrorType
@@ -80,14 +80,14 @@ type NewAPIError struct {
 	StatusCode int
 }
 
-func (e *NewAPIError) GetErrorCode() ErrorCode {
+func (e *NewapiError) GetErrorCode() ErrorCode {
 	if e == nil {
 		return ""
 	}
 	return e.errorCode
 }
 
-func (e *NewAPIError) Error() string {
+func (e *NewapiError) Error() string {
 	if e == nil {
 		return ""
 	}
@@ -98,11 +98,11 @@ func (e *NewAPIError) Error() string {
 	return e.Err.Error()
 }
 
-func (e *NewAPIError) SetMessage(message string) {
+func (e *NewapiError) SetMessage(message string) {
 	e.Err = errors.New(message)
 }
 
-func (e *NewAPIError) ToOpenAIError() OpenAIError {
+func (e *NewapiError) ToOpenAIError() OpenAIError {
 	switch e.ErrorType {
 	case ErrorTypeOpenAIError:
 		return e.RelayError.(OpenAIError)
@@ -124,7 +124,7 @@ func (e *NewAPIError) ToOpenAIError() OpenAIError {
 	}
 }
 
-func (e *NewAPIError) ToClaudeError() ClaudeError {
+func (e *NewapiError) ToClaudeError() ClaudeError {
 	switch e.ErrorType {
 	case ErrorTypeOpenAIError:
 		openAIError := e.RelayError.(OpenAIError)
@@ -142,17 +142,17 @@ func (e *NewAPIError) ToClaudeError() ClaudeError {
 	}
 }
 
-func NewError(err error, errorCode ErrorCode) *NewAPIError {
-	return &NewAPIError{
+func NewError(err error, errorCode ErrorCode) *NewapiError {
+	return &NewapiError{
 		Err:        err,
 		RelayError: nil,
-		ErrorType:  ErrorTypeNewAPIError,
+		ErrorType:  ErrorTypeNewapiError,
 		StatusCode: http.StatusInternalServerError,
 		errorCode:  errorCode,
 	}
 }
 
-func NewOpenAIError(err error, errorCode ErrorCode, statusCode int) *NewAPIError {
+func NewOpenAIError(err error, errorCode ErrorCode, statusCode int) *NewapiError {
 	openaiError := OpenAIError{
 		Message: err.Error(),
 		Type:    string(errorCode),
@@ -160,22 +160,22 @@ func NewOpenAIError(err error, errorCode ErrorCode, statusCode int) *NewAPIError
 	return WithOpenAIError(openaiError, statusCode)
 }
 
-func NewErrorWithStatusCode(err error, errorCode ErrorCode, statusCode int) *NewAPIError {
-	return &NewAPIError{
+func NewErrorWithStatusCode(err error, errorCode ErrorCode, statusCode int) *NewapiError {
+	return &NewapiError{
 		Err:        err,
 		RelayError: nil,
-		ErrorType:  ErrorTypeNewAPIError,
+		ErrorType:  ErrorTypeNewapiError,
 		StatusCode: statusCode,
 		errorCode:  errorCode,
 	}
 }
 
-func WithOpenAIError(openAIError OpenAIError, statusCode int) *NewAPIError {
+func WithOpenAIError(openAIError OpenAIError, statusCode int) *NewapiError {
 	code, ok := openAIError.Code.(string)
 	if !ok {
 		code = fmt.Sprintf("%v", openAIError.Code)
 	}
-	return &NewAPIError{
+	return &NewapiError{
 		RelayError: openAIError,
 		ErrorType:  ErrorTypeOpenAIError,
 		StatusCode: statusCode,
@@ -184,8 +184,8 @@ func WithOpenAIError(openAIError OpenAIError, statusCode int) *NewAPIError {
 	}
 }
 
-func WithClaudeError(claudeError ClaudeError, statusCode int) *NewAPIError {
-	return &NewAPIError{
+func WithClaudeError(claudeError ClaudeError, statusCode int) *NewapiError {
+	return &NewapiError{
 		RelayError: claudeError,
 		ErrorType:  ErrorTypeClaudeError,
 		StatusCode: statusCode,
@@ -194,17 +194,17 @@ func WithClaudeError(claudeError ClaudeError, statusCode int) *NewAPIError {
 	}
 }
 
-func IsChannelError(err *NewAPIError) bool {
+func IsChannelError(err *NewapiError) bool {
 	if err == nil {
 		return false
 	}
 	return strings.HasPrefix(string(err.errorCode), "channel:")
 }
 
-func IsLocalError(err *NewAPIError) bool {
+func IsLocalError(err *NewapiError) bool {
 	if err == nil {
 		return false
 	}
 
-	return err.ErrorType == ErrorTypeNewAPIError
+	return err.ErrorType == ErrorTypeNewapiError
 }

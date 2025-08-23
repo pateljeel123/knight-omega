@@ -9,7 +9,7 @@
 + [x] /mj/submit/blend
 + [x] /mj/submit/describe
 + [x] /mj/image/{id} （通过此接口获取图片，**请必须在系统设置中填写服务器地址！！**）
-+ [x] /mj/task/{id}/fetch （此接口返回的图片地址为经过One API转发的地址）
++ [x] /mj/task/{id}/fetch （此接口返回的图片地址为经过Knight Omega转发的地址）
 + [x] /task/list-by-condition
 + [x] /mj/submit/action （仅midjourney-proxy-plus支持，下同）
 + [x] /mj/submit/modal

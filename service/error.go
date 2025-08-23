@@ -39,7 +39,7 @@ func MidjourneyErrorWithStatusCodeWrapper(code int, desc string, statusCode int)
 //	}
 //	openAIError := dto.OpenAIError{
 //		Message: text,
-//		Type:    "new_api_error",
+//		Type:    "knightomega_api_error",
 //		Code:    code,
 //	}
 //	return &dto.OpenAIErrorWithStatusCode{
@@ -65,7 +65,7 @@ func ClaudeErrorWrapper(err error, code string, statusCode int) *dto.ClaudeError
 	}
 	claudeError := dto.ClaudeError{
 		Message: text,
-		Type:    "new_api_error",
+		Type:    "knightomega_api_error",
 	}
 	return &dto.ClaudeErrorWithStatusCode{
 		Error:      claudeError,
@@ -79,8 +79,8 @@ func ClaudeErrorWrapperLocal(err error, code string, statusCode int) *dto.Claude
 	return claudeErr
 }
 
-func RelayErrorHandler(resp *http.Response, showBodyWhenFail bool) (newApiErr *types.NewAPIError) {
-	newApiErr = &types.NewAPIError{
+func RelayErrorHandler(resp *http.Response, showBodyWhenFail bool) (NewapiErr *types.NewapiError) {
+	NewapiErr = &types.NewapiError{
 		StatusCode: resp.StatusCode,
 		ErrorType:  types.ErrorTypeOpenAIError,
 	}
@@ -95,23 +95,23 @@ func RelayErrorHandler(resp *http.Response, showBodyWhenFail bool) (newApiErr *t
 	err = common.Unmarshal(responseBody, &errResponse)
 	if err != nil {
 		if showBodyWhenFail {
-			newApiErr.Err = fmt.Errorf("bad response status code %d, body: %s", resp.StatusCode, string(responseBody))
+			NewapiErr.Err = fmt.Errorf("bad response status code %d, body: %s", resp.StatusCode, string(responseBody))
 		} else {
-			newApiErr.Err = fmt.Errorf("bad response status code %d", resp.StatusCode)
+			NewapiErr.Err = fmt.Errorf("bad response status code %d", resp.StatusCode)
 		}
 		return
 	}
 	if errResponse.Error.Message != "" {
 		// General format error (OpenAI, Anthropic, Gemini, etc.)
-		newApiErr = types.WithOpenAIError(errResponse.Error, resp.StatusCode)
+		NewapiErr = types.WithOpenAIError(errResponse.Error, resp.StatusCode)
 	} else {
-		newApiErr = types.NewErrorWithStatusCode(errors.New(errResponse.ToMessage()), types.ErrorCodeBadResponseStatusCode, resp.StatusCode)
-		newApiErr.ErrorType = types.ErrorTypeOpenAIError
+		NewapiErr = types.NewErrorWithStatusCode(errors.New(errResponse.ToMessage()), types.ErrorCodeBadResponseStatusCode, resp.StatusCode)
+		NewapiErr.ErrorType = types.ErrorTypeOpenAIError
 	}
 	return
 }
 
-func ResetStatusCode(newApiErr *types.NewAPIError, statusCodeMappingStr string) {
+func ResetStatusCode(NewapiErr *types.NewapiError, statusCodeMappingStr string) {
 	if statusCodeMappingStr == "" || statusCodeMappingStr == "{}" {
 		return
 	}
@@ -120,13 +120,13 @@ func ResetStatusCode(newApiErr *types.NewAPIError, statusCodeMappingStr string) 
 	if err != nil {
 		return
 	}
-	if newApiErr.StatusCode == http.StatusOK {
+	if NewapiErr.StatusCode == http.StatusOK {
 		return
 	}
-	codeStr := strconv.Itoa(newApiErr.StatusCode)
+	codeStr := strconv.Itoa(NewapiErr.StatusCode)
 	if _, ok := statusCodeMapping[codeStr]; ok {
 		intCode, _ := strconv.Atoi(statusCodeMapping[codeStr])
-		newApiErr.StatusCode = intCode
+		NewapiErr.StatusCode = intCode
 	}
 }
 

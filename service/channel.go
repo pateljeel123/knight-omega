@@ -35,7 +35,7 @@ func EnableChannel(channelId int, usingKey string, channelName string) {
 	}
 }
 
-func ShouldDisableChannel(channelType int, err *types.NewAPIError) bool {
+func ShouldDisableChannel(channelType int, err *types.NewapiError) bool {
 	if !common.AutomaticDisableChannelEnabled {
 		return false
 	}
@@ -87,11 +87,11 @@ func ShouldDisableChannel(channelType int, err *types.NewAPIError) bool {
 	return search
 }
 
-func ShouldEnableChannel(newAPIError *types.NewAPIError, status int) bool {
+func ShouldEnableChannel(NewapiError *types.NewapiError, status int) bool {
 	if !common.AutomaticEnableChannelEnabled {
 		return false
 	}
-	if newAPIError != nil {
+	if NewapiError != nil {
 		return false
 	}
 	if status != common.ChannelStatusAutoDisabled {

@@ -87,7 +87,7 @@ func getImageToken(info *relaycommon.RelayInfo, imageUrl *dto.MessageImageUrl, m
 		return 3 * baseTokens, nil
 	}
 
-	// 同步One API的图片计费逻辑
+	// 同步Knight Omega的图片计费逻辑
 	if imageUrl.Detail == "auto" || imageUrl.Detail == "" {
 		imageUrl.Detail = "high"
 	}

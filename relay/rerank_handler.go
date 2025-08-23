@@ -23,7 +23,7 @@ func getRerankPromptToken(rerankRequest dto.RerankRequest) int {
 	return token
 }
 
-func RerankHelper(c *gin.Context, relayMode int) (newAPIError *types.NewAPIError) {
+func RerankHelper(c *gin.Context, relayMode int) (NewapiError *types.NewapiError) {
 
 	var rerankRequest *dto.RerankRequest
 	err := common.UnmarshalBodyReusable(c, &rerankRequest)
@@ -54,12 +54,12 @@ func RerankHelper(c *gin.Context, relayMode int) (newAPIError *types.NewAPIError
 		return types.NewError(err, types.ErrorCodeModelPriceError)
 	}
 	// pre-consume quota 预消耗配额
-	preConsumedQuota, userQuota, newAPIError := preConsumeQuota(c, priceData.ShouldPreConsumedQuota, relayInfo)
-	if newAPIError != nil {
-		return newAPIError
+	preConsumedQuota, userQuota, NewapiError := preConsumeQuota(c, priceData.ShouldPreConsumedQuota, relayInfo)
+	if NewapiError != nil {
+		return NewapiError
 	}
 	defer func() {
-		if newAPIError != nil {
+		if NewapiError != nil {
 			returnPreConsumedQuota(c, relayInfo, userQuota, preConsumedQuota)
 		}
 	}()
@@ -92,18 +92,18 @@ func RerankHelper(c *gin.Context, relayMode int) (newAPIError *types.NewAPIError
 	if resp != nil {
 		httpResp = resp.(*http.Response)
 		if httpResp.StatusCode != http.StatusOK {
-			newAPIError = service.RelayErrorHandler(httpResp, false)
+			NewapiError = service.RelayErrorHandler(httpResp, false)
 			// reset status code 重置状态码
-			service.ResetStatusCode(newAPIError, statusCodeMappingStr)
-			return newAPIError
+			service.ResetStatusCode(NewapiError, statusCodeMappingStr)
+			return NewapiError
 		}
 	}
 
-	usage, newAPIError := adaptor.DoResponse(c, httpResp, relayInfo)
-	if newAPIError != nil {
+	usage, NewapiError := adaptor.DoResponse(c, httpResp, relayInfo)
+	if NewapiError != nil {
 		// reset status code 重置状态码
-		service.ResetStatusCode(newAPIError, statusCodeMappingStr)
-		return newAPIError
+		service.ResetStatusCode(NewapiError, statusCodeMappingStr)
+		return NewapiError
 	}
 	postConsumeQuota(c, relayInfo, usage.(*dto.Usage), preConsumedQuota, userQuota, priceData, "")
 	return nil

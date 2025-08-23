@@ -126,7 +126,7 @@ func responseAli2OpenAIImage(c *gin.Context, response *AliResponse, info *relayc
 	return &imageResponse
 }
 
-func aliImageHandler(c *gin.Context, resp *http.Response, info *relaycommon.RelayInfo) (*types.NewAPIError, *dto.Usage) {
+func aliImageHandler(c *gin.Context, resp *http.Response, info *relaycommon.RelayInfo) (*types.NewapiError, *dto.Usage) {
 	responseFormat := c.GetString("response_format")
 
 	var aliTaskResponse AliResponse

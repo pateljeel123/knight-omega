@@ -24,8 +24,8 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-func relayHandler(c *gin.Context, relayMode int) *types.NewAPIError {
-	var err *types.NewAPIError
+func relayHandler(c *gin.Context, relayMode int) *types.NewapiError {
+	var err *types.NewapiError
 	switch relayMode {
 	case relayconstant.RelayModeImagesGenerations, relayconstant.RelayModeImagesEdits:
 		err = relay.ImageHelper(c)
@@ -74,25 +74,25 @@ func Relay(c *gin.Context) {
 	requestId := c.GetString(common.RequestIdKey)
 	group := c.GetString("group")
 	originalModel := c.GetString("original_model")
-	var newAPIError *types.NewAPIError
+	var NewapiError *types.NewapiError
 
 	for i := 0; i <= common.RetryTimes; i++ {
 		channel, err := getChannel(c, group, originalModel, i)
 		if err != nil {
 			common.LogError(c, err.Error())
-			newAPIError = err
+			NewapiError = err
 			break
 		}
 
-		newAPIError = relayRequest(c, relayMode, channel)
+		NewapiError = relayRequest(c, relayMode, channel)
 
-		if newAPIError == nil {
+		if NewapiError == nil {
 			return // 成功处理请求，直接返回
 		}
 
-		go processChannelError(c, *types.NewChannelError(channel.Id, channel.Type, channel.Name, channel.ChannelInfo.IsMultiKey, common.GetContextKeyString(c, constant.ContextKeyChannelKey), channel.GetAutoBan()), newAPIError)
+		go processChannelError(c, *types.NewChannelError(channel.Id, channel.Type, channel.Name, channel.ChannelInfo.IsMultiKey, common.GetContextKeyString(c, constant.ContextKeyChannelKey), channel.GetAutoBan()), NewapiError)
 
-		if !shouldRetry(c, newAPIError, common.RetryTimes-i) {
+		if !shouldRetry(c, NewapiError, common.RetryTimes-i) {
 			break
 		}
 	}
@@ -102,14 +102,14 @@ func Relay(c *gin.Context) {
 		common.LogInfo(c, retryLogStr)
 	}
 
-	if newAPIError != nil {
-		//if newAPIError.StatusCode == http.StatusTooManyRequests {
-		//	common.LogError(c, fmt.Sprintf("origin 429 error: %s", newAPIError.Error()))
-		//	newAPIError.SetMessage("当前分组上游负载已饱和，请稍后再试")
+	if NewapiError != nil {
+		//if NewapiError.StatusCode == http.StatusTooManyRequests {
+		//	common.LogError(c, fmt.Sprintf("origin 429 error: %s", NewapiError.Error()))
+		//	NewapiError.SetMessage("当前分组上游负载已饱和，请稍后再试")
 		//}
-		newAPIError.SetMessage(common.MessageWithRequestId(newAPIError.Error(), requestId))
-		c.JSON(newAPIError.StatusCode, gin.H{
-			"error": newAPIError.ToOpenAIError(),
+		NewapiError.SetMessage(common.MessageWithRequestId(NewapiError.Error(), requestId))
+		c.JSON(NewapiError.StatusCode, gin.H{
+			"error": NewapiError.ToOpenAIError(),
 		})
 	}
 }
@@ -137,25 +137,25 @@ func WssRelay(c *gin.Context) {
 	group := c.GetString("group")
 	//wss://api.openai.com/v1/realtime?model=gpt-4o-realtime-preview-2024-10-01
 	originalModel := c.GetString("original_model")
-	var newAPIError *types.NewAPIError
+	var NewapiError *types.NewapiError
 
 	for i := 0; i <= common.RetryTimes; i++ {
 		channel, err := getChannel(c, group, originalModel, i)
 		if err != nil {
 			common.LogError(c, err.Error())
-			newAPIError = err
+			NewapiError = err
 			break
 		}
 
-		newAPIError = wssRequest(c, ws, relayMode, channel)
+		NewapiError = wssRequest(c, ws, relayMode, channel)
 
-		if newAPIError == nil {
+		if NewapiError == nil {
 			return // 成功处理请求，直接返回
 		}
 
-		go processChannelError(c, *types.NewChannelError(channel.Id, channel.Type, channel.Name, channel.ChannelInfo.IsMultiKey, common.GetContextKeyString(c, constant.ContextKeyChannelKey), channel.GetAutoBan()), newAPIError)
+		go processChannelError(c, *types.NewChannelError(channel.Id, channel.Type, channel.Name, channel.ChannelInfo.IsMultiKey, common.GetContextKeyString(c, constant.ContextKeyChannelKey), channel.GetAutoBan()), NewapiError)
 
-		if !shouldRetry(c, newAPIError, common.RetryTimes-i) {
+		if !shouldRetry(c, NewapiError, common.RetryTimes-i) {
 			break
 		}
 	}
@@ -165,12 +165,12 @@ func WssRelay(c *gin.Context) {
 		common.LogInfo(c, retryLogStr)
 	}
 
-	if newAPIError != nil {
-		//if newAPIError.StatusCode == http.StatusTooManyRequests {
-		//	newAPIError.SetMessage("当前分组上游负载已饱和，请稍后再试")
+	if NewapiError != nil {
+		//if NewapiError.StatusCode == http.StatusTooManyRequests {
+		//	NewapiError.SetMessage("当前分组上游负载已饱和，请稍后再试")
 		//}
-		newAPIError.SetMessage(common.MessageWithRequestId(newAPIError.Error(), requestId))
-		helper.WssError(c, ws, newAPIError.ToOpenAIError())
+		NewapiError.SetMessage(common.MessageWithRequestId(NewapiError.Error(), requestId))
+		helper.WssError(c, ws, NewapiError.ToOpenAIError())
 	}
 }
 
@@ -179,25 +179,25 @@ func RelayClaude(c *gin.Context) {
 	requestId := c.GetString(common.RequestIdKey)
 	group := c.GetString("group")
 	originalModel := c.GetString("original_model")
-	var newAPIError *types.NewAPIError
+	var NewapiError *types.NewapiError
 
 	for i := 0; i <= common.RetryTimes; i++ {
 		channel, err := getChannel(c, group, originalModel, i)
 		if err != nil {
 			common.LogError(c, err.Error())
-			newAPIError = err
+			NewapiError = err
 			break
 		}
 
-		newAPIError = claudeRequest(c, channel)
+		NewapiError = claudeRequest(c, channel)
 
-		if newAPIError == nil {
+		if NewapiError == nil {
 			return // 成功处理请求，直接返回
 		}
 
-		go processChannelError(c, *types.NewChannelError(channel.Id, channel.Type, channel.Name, channel.ChannelInfo.IsMultiKey, common.GetContextKeyString(c, constant.ContextKeyChannelKey), channel.GetAutoBan()), newAPIError)
+		go processChannelError(c, *types.NewChannelError(channel.Id, channel.Type, channel.Name, channel.ChannelInfo.IsMultiKey, common.GetContextKeyString(c, constant.ContextKeyChannelKey), channel.GetAutoBan()), NewapiError)
 
-		if !shouldRetry(c, newAPIError, common.RetryTimes-i) {
+		if !shouldRetry(c, NewapiError, common.RetryTimes-i) {
 			break
 		}
 	}
@@ -207,30 +207,30 @@ func RelayClaude(c *gin.Context) {
 		common.LogInfo(c, retryLogStr)
 	}
 
-	if newAPIError != nil {
-		newAPIError.SetMessage(common.MessageWithRequestId(newAPIError.Error(), requestId))
-		c.JSON(newAPIError.StatusCode, gin.H{
+	if NewapiError != nil {
+		NewapiError.SetMessage(common.MessageWithRequestId(NewapiError.Error(), requestId))
+		c.JSON(NewapiError.StatusCode, gin.H{
 			"type":  "error",
-			"error": newAPIError.ToClaudeError(),
+			"error": NewapiError.ToClaudeError(),
 		})
 	}
 }
 
-func relayRequest(c *gin.Context, relayMode int, channel *model.Channel) *types.NewAPIError {
+func relayRequest(c *gin.Context, relayMode int, channel *model.Channel) *types.NewapiError {
 	addUsedChannel(c, channel.Id)
 	requestBody, _ := common.GetRequestBody(c)
 	c.Request.Body = io.NopCloser(bytes.NewBuffer(requestBody))
 	return relayHandler(c, relayMode)
 }
 
-func wssRequest(c *gin.Context, ws *websocket.Conn, relayMode int, channel *model.Channel) *types.NewAPIError {
+func wssRequest(c *gin.Context, ws *websocket.Conn, relayMode int, channel *model.Channel) *types.NewapiError {
 	addUsedChannel(c, channel.Id)
 	requestBody, _ := common.GetRequestBody(c)
 	c.Request.Body = io.NopCloser(bytes.NewBuffer(requestBody))
 	return relay.WssHelper(c, ws)
 }
 
-func claudeRequest(c *gin.Context, channel *model.Channel) *types.NewAPIError {
+func claudeRequest(c *gin.Context, channel *model.Channel) *types.NewapiError {
 	addUsedChannel(c, channel.Id)
 	requestBody, _ := common.GetRequestBody(c)
 	c.Request.Body = io.NopCloser(bytes.NewBuffer(requestBody))
@@ -243,7 +243,7 @@ func addUsedChannel(c *gin.Context, channelId int) {
 	c.Set("use_channel", useChannel)
 }
 
-func getChannel(c *gin.Context, group, originalModel string, retryCount int) (*model.Channel, *types.NewAPIError) {
+func getChannel(c *gin.Context, group, originalModel string, retryCount int) (*model.Channel, *types.NewapiError) {
 	if retryCount == 0 {
 		autoBan := c.GetBool("auto_ban")
 		autoBanInt := 1
@@ -264,14 +264,14 @@ func getChannel(c *gin.Context, group, originalModel string, retryCount int) (*m
 		}
 		return nil, types.NewError(errors.New(fmt.Sprintf("获取分组 %s 下模型 %s 的可用渠道失败: %s", selectGroup, originalModel, err.Error())), types.ErrorCodeGetChannelFailed)
 	}
-	newAPIError := middleware.SetupContextForSelectedChannel(c, channel, originalModel)
-	if newAPIError != nil {
-		return nil, newAPIError
+	NewapiError := middleware.SetupContextForSelectedChannel(c, channel, originalModel)
+	if NewapiError != nil {
+		return nil, NewapiError
 	}
 	return channel, nil
 }
 
-func shouldRetry(c *gin.Context, openaiErr *types.NewAPIError, retryTimes int) bool {
+func shouldRetry(c *gin.Context, openaiErr *types.NewapiError, retryTimes int) bool {
 	if openaiErr == nil {
 		return false
 	}
@@ -317,7 +317,7 @@ func shouldRetry(c *gin.Context, openaiErr *types.NewAPIError, retryTimes int) b
 	return true
 }
 
-func processChannelError(c *gin.Context, channelError types.ChannelError, err *types.NewAPIError) {
+func processChannelError(c *gin.Context, channelError types.ChannelError, err *types.NewapiError) {
 	// 不要使用context获取渠道信息，异步处理时可能会出现渠道信息不一致的情况
 	// do not use context to get channel info, there may be inconsistent channel info when processing asynchronously
 	common.LogError(c, fmt.Sprintf("relay error (channel #%d, status code: %d): %s", channelError.ChannelId, err.StatusCode, err.Error()))
@@ -362,7 +362,7 @@ func RelayMidjourney(c *gin.Context) {
 func RelayNotImplemented(c *gin.Context) {
 	err := dto.OpenAIError{
 		Message: "API not implemented",
-		Type:    "new_api_error",
+		Type:    "knightomega_api_error",
 		Param:   "",
 		Code:    "api_not_implemented",
 	}
@@ -395,10 +395,10 @@ func RelayTask(c *gin.Context) {
 		retryTimes = 0
 	}
 	for i := 0; shouldRetryTaskRelay(c, channelId, taskErr, retryTimes) && i < retryTimes; i++ {
-		channel, newAPIError := getChannel(c, group, originalModel, i)
-		if newAPIError != nil {
-			common.LogError(c, fmt.Sprintf("CacheGetRandomSatisfiedChannel failed: %s", newAPIError.Error()))
-			taskErr = service.TaskErrorWrapperLocal(newAPIError.Err, "get_channel_failed", http.StatusInternalServerError)
+		channel, NewapiError := getChannel(c, group, originalModel, i)
+		if NewapiError != nil {
+			common.LogError(c, fmt.Sprintf("CacheGetRandomSatisfiedChannel failed: %s", NewapiError.Error()))
+			taskErr = service.TaskErrorWrapperLocal(NewapiError.Err, "get_channel_failed", http.StatusInternalServerError)
 			break
 		}
 		channelId = channel.Id

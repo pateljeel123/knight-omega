@@ -85,7 +85,7 @@ func getAndValidateTextRequest(c *gin.Context, relayInfo *relaycommon.RelayInfo)
 	return textRequest, nil
 }
 
-func TextHelper(c *gin.Context) (newAPIError *types.NewAPIError) {
+func TextHelper(c *gin.Context) (NewapiError *types.NewapiError) {
 
 	relayInfo := relaycommon.GenRelayInfo(c)
 
@@ -133,12 +133,12 @@ func TextHelper(c *gin.Context) (newAPIError *types.NewAPIError) {
 	}
 
 	// pre-consume quota 预消耗配额
-	preConsumedQuota, userQuota, newApiErr := preConsumeQuota(c, priceData.ShouldPreConsumedQuota, relayInfo)
-	if newApiErr != nil {
-		return newApiErr
+	preConsumedQuota, userQuota, NewapiErr := preConsumeQuota(c, priceData.ShouldPreConsumedQuota, relayInfo)
+	if NewapiErr != nil {
+		return NewapiErr
 	}
 	defer func() {
-		if newApiErr != nil {
+		if NewapiErr != nil {
 			returnPreConsumedQuota(c, relayInfo, userQuota, preConsumedQuota)
 		}
 	}()
@@ -219,18 +219,18 @@ func TextHelper(c *gin.Context) (newAPIError *types.NewAPIError) {
 		httpResp = resp.(*http.Response)
 		relayInfo.IsStream = relayInfo.IsStream || strings.HasPrefix(httpResp.Header.Get("Content-Type"), "text/event-stream")
 		if httpResp.StatusCode != http.StatusOK {
-			newApiErr = service.RelayErrorHandler(httpResp, false)
+			NewapiErr = service.RelayErrorHandler(httpResp, false)
 			// reset status code 重置状态码
-			service.ResetStatusCode(newApiErr, statusCodeMappingStr)
-			return newApiErr
+			service.ResetStatusCode(NewapiErr, statusCodeMappingStr)
+			return NewapiErr
 		}
 	}
 
-	usage, newApiErr := adaptor.DoResponse(c, httpResp, relayInfo)
-	if newApiErr != nil {
+	usage, NewapiErr := adaptor.DoResponse(c, httpResp, relayInfo)
+	if NewapiErr != nil {
 		// reset status code 重置状态码
-		service.ResetStatusCode(newApiErr, statusCodeMappingStr)
-		return newApiErr
+		service.ResetStatusCode(NewapiErr, statusCodeMappingStr)
+		return NewapiErr
 	}
 
 	if strings.HasPrefix(relayInfo.OriginModelName, "gpt-4o-audio") {
@@ -278,7 +278,7 @@ func checkRequestSensitive(textRequest *dto.GeneralOpenAIRequest, info *relaycom
 }
 
 // 预扣费并返回用户剩余配额
-func preConsumeQuota(c *gin.Context, preConsumedQuota int, relayInfo *relaycommon.RelayInfo) (int, int, *types.NewAPIError) {
+func preConsumeQuota(c *gin.Context, preConsumedQuota int, relayInfo *relaycommon.RelayInfo) (int, int, *types.NewapiError) {
 	userQuota, err := model.GetUserQuota(relayInfo.UserId, false)
 	if err != nil {
 		return 0, 0, types.NewError(err, types.ErrorCodeQueryDataError)

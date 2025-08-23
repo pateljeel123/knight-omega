@@ -34,7 +34,7 @@ import (
 type testResult struct {
 	context     *gin.Context
 	localErr    error
-	newAPIError *types.NewAPIError
+	NewapiError *types.NewapiError
 }
 
 func testChannel(channel *model.Channel, testModel string) testResult {
@@ -42,31 +42,31 @@ func testChannel(channel *model.Channel, testModel string) testResult {
 	if channel.Type == constant.ChannelTypeMidjourney {
 		return testResult{
 			localErr:    errors.New("midjourney channel test is not supported"),
-			newAPIError: nil,
+			NewapiError: nil,
 		}
 	}
 	if channel.Type == constant.ChannelTypeMidjourneyPlus {
 		return testResult{
 			localErr:    errors.New("midjourney plus channel test is not supported"),
-			newAPIError: nil,
+			NewapiError: nil,
 		}
 	}
 	if channel.Type == constant.ChannelTypeSunoAPI {
 		return testResult{
 			localErr:    errors.New("suno channel test is not supported"),
-			newAPIError: nil,
+			NewapiError: nil,
 		}
 	}
 	if channel.Type == constant.ChannelTypeKling {
 		return testResult{
 			localErr:    errors.New("kling channel test is not supported"),
-			newAPIError: nil,
+			NewapiError: nil,
 		}
 	}
 	if channel.Type == constant.ChannelTypeJimeng {
 		return testResult{
 			localErr:    errors.New("jimeng channel test is not supported"),
-			newAPIError: nil,
+			NewapiError: nil,
 		}
 	}
 	w := httptest.NewRecorder()
@@ -106,7 +106,7 @@ func testChannel(channel *model.Channel, testModel string) testResult {
 	if err != nil {
 		return testResult{
 			localErr:    err,
-			newAPIError: nil,
+			NewapiError: nil,
 		}
 	}
 	cache.WriteContext(c)
@@ -118,12 +118,12 @@ func testChannel(channel *model.Channel, testModel string) testResult {
 	group, _ := model.GetUserGroup(1, false)
 	c.Set("group", group)
 
-	newAPIError := middleware.SetupContextForSelectedChannel(c, channel, testModel)
-	if newAPIError != nil {
+	NewapiError := middleware.SetupContextForSelectedChannel(c, channel, testModel)
+	if NewapiError != nil {
 		return testResult{
 			context:     c,
-			localErr:    newAPIError,
-			newAPIError: newAPIError,
+			localErr:    NewapiError,
+			NewapiError: NewapiError,
 		}
 	}
 
@@ -134,7 +134,7 @@ func testChannel(channel *model.Channel, testModel string) testResult {
 		return testResult{
 			context:     c,
 			localErr:    err,
-			newAPIError: types.NewError(err, types.ErrorCodeChannelModelMappedError),
+			NewapiError: types.NewError(err, types.ErrorCodeChannelModelMappedError),
 		}
 	}
 	testModel = info.UpstreamModelName
@@ -145,7 +145,7 @@ func testChannel(channel *model.Channel, testModel string) testResult {
 		return testResult{
 			context:     c,
 			localErr:    fmt.Errorf("invalid api type: %d, adaptor is nil", apiType),
-			newAPIError: types.NewError(fmt.Errorf("invalid api type: %d, adaptor is nil", apiType), types.ErrorCodeInvalidApiType),
+			NewapiError: types.NewError(fmt.Errorf("invalid api type: %d, adaptor is nil", apiType), types.ErrorCodeInvalidApiType),
 		}
 	}
 
@@ -160,7 +160,7 @@ func testChannel(channel *model.Channel, testModel string) testResult {
 		return testResult{
 			context:     c,
 			localErr:    err,
-			newAPIError: types.NewError(err, types.ErrorCodeModelPriceError),
+			NewapiError: types.NewError(err, types.ErrorCodeModelPriceError),
 		}
 	}
 
@@ -185,7 +185,7 @@ func testChannel(channel *model.Channel, testModel string) testResult {
 		return testResult{
 			context:     c,
 			localErr:    err,
-			newAPIError: types.NewError(err, types.ErrorCodeConvertRequestFailed),
+			NewapiError: types.NewError(err, types.ErrorCodeConvertRequestFailed),
 		}
 	}
 	jsonData, err := json.Marshal(convertedRequest)
@@ -193,7 +193,7 @@ func testChannel(channel *model.Channel, testModel string) testResult {
 		return testResult{
 			context:     c,
 			localErr:    err,
-			newAPIError: types.NewError(err, types.ErrorCodeJsonMarshalFailed),
+			NewapiError: types.NewError(err, types.ErrorCodeJsonMarshalFailed),
 		}
 	}
 	requestBody := bytes.NewBuffer(jsonData)
@@ -203,7 +203,7 @@ func testChannel(channel *model.Channel, testModel string) testResult {
 		return testResult{
 			context:     c,
 			localErr:    err,
-			newAPIError: types.NewError(err, types.ErrorCodeDoRequestFailed),
+			NewapiError: types.NewError(err, types.ErrorCodeDoRequestFailed),
 		}
 	}
 	var httpResp *http.Response
@@ -214,7 +214,7 @@ func testChannel(channel *model.Channel, testModel string) testResult {
 			return testResult{
 				context:     c,
 				localErr:    err,
-				newAPIError: types.NewError(err, types.ErrorCodeBadResponse),
+				NewapiError: types.NewError(err, types.ErrorCodeBadResponse),
 			}
 		}
 	}
@@ -223,14 +223,14 @@ func testChannel(channel *model.Channel, testModel string) testResult {
 		return testResult{
 			context:     c,
 			localErr:    respErr,
-			newAPIError: respErr,
+			NewapiError: respErr,
 		}
 	}
 	if usageA == nil {
 		return testResult{
 			context:     c,
 			localErr:    errors.New("usage is nil"),
-			newAPIError: types.NewError(errors.New("usage is nil"), types.ErrorCodeBadResponseBody),
+			NewapiError: types.NewError(errors.New("usage is nil"), types.ErrorCodeBadResponseBody),
 		}
 	}
 	usage := usageA.(*dto.Usage)
@@ -240,7 +240,7 @@ func testChannel(channel *model.Channel, testModel string) testResult {
 		return testResult{
 			context:     c,
 			localErr:    err,
-			newAPIError: types.NewError(err, types.ErrorCodeReadResponseBodyFailed),
+			NewapiError: types.NewError(err, types.ErrorCodeReadResponseBodyFailed),
 		}
 	}
 	info.PromptTokens = usage.PromptTokens
@@ -277,7 +277,7 @@ func testChannel(channel *model.Channel, testModel string) testResult {
 	return testResult{
 		context:     c,
 		localErr:    nil,
-		newAPIError: nil,
+		NewapiError: nil,
 	}
 }
 
@@ -349,10 +349,10 @@ func TestChannel(c *gin.Context) {
 	milliseconds := tok.Sub(tik).Milliseconds()
 	go channel.UpdateResponseTime(milliseconds)
 	consumedTime := float64(milliseconds) / 1000.0
-	if result.newAPIError != nil {
+	if result.NewapiError != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"success": false,
-			"message": result.newAPIError.Error(),
+			"message": result.NewapiError.Error(),
 			"time":    consumedTime,
 		})
 		return
@@ -401,28 +401,28 @@ func testAllChannels(notify bool) error {
 			milliseconds := tok.Sub(tik).Milliseconds()
 
 			shouldBanChannel := false
-			newAPIError := result.newAPIError
+			NewapiError := result.NewapiError
 			// request error disables the channel
-			if newAPIError != nil {
-				shouldBanChannel = service.ShouldDisableChannel(channel.Type, result.newAPIError)
+			if NewapiError != nil {
+				shouldBanChannel = service.ShouldDisableChannel(channel.Type, result.NewapiError)
 			}
 
 			// 当错误检查通过，才检查响应时间
 			if common.AutomaticDisableChannelEnabled && !shouldBanChannel {
 				if milliseconds > disableThreshold {
 					err := errors.New(fmt.Sprintf("响应时间 %.2fs 超过阈值 %.2fs", float64(milliseconds)/1000.0, float64(disableThreshold)/1000.0))
-					newAPIError = types.NewError(err, types.ErrorCodeChannelResponseTimeExceeded)
+					NewapiError = types.NewError(err, types.ErrorCodeChannelResponseTimeExceeded)
 					shouldBanChannel = true
 				}
 			}
 
 			// disable channel
 			if isChannelEnabled && shouldBanChannel && channel.GetAutoBan() {
-				go processChannelError(result.context, *types.NewChannelError(channel.Id, channel.Type, channel.Name, channel.ChannelInfo.IsMultiKey, common.GetContextKeyString(result.context, constant.ContextKeyChannelKey), channel.GetAutoBan()), newAPIError)
+				go processChannelError(result.context, *types.NewChannelError(channel.Id, channel.Type, channel.Name, channel.ChannelInfo.IsMultiKey, common.GetContextKeyString(result.context, constant.ContextKeyChannelKey), channel.GetAutoBan()), NewapiError)
 			}
 
 			// enable channel
-			if !isChannelEnabled && service.ShouldEnableChannel(newAPIError, channel.Status) {
+			if !isChannelEnabled && service.ShouldEnableChannel(NewapiError, channel.Status) {
 				service.EnableChannel(channel.Id, common.GetContextKeyString(result.context, constant.ContextKeyChannelKey), channel.Name)
 			}
 

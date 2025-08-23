@@ -39,7 +39,7 @@ func embeddingRequestOpenAI2Ali(request dto.EmbeddingRequest) *AliEmbeddingReque
 	}
 }
 
-func aliEmbeddingHandler(c *gin.Context, resp *http.Response) (*types.NewAPIError, *dto.Usage) {
+func aliEmbeddingHandler(c *gin.Context, resp *http.Response) (*types.NewapiError, *dto.Usage) {
 	var fullTextResponse dto.FlexibleEmbeddingResponse
 	err := json.NewDecoder(resp.Body).Decode(&fullTextResponse)
 	if err != nil {
@@ -120,7 +120,7 @@ func streamResponseAli2OpenAI(aliResponse *AliResponse) *dto.ChatCompletionsStre
 	return &response
 }
 
-func aliStreamHandler(c *gin.Context, resp *http.Response) (*types.NewAPIError, *dto.Usage) {
+func aliStreamHandler(c *gin.Context, resp *http.Response) (*types.NewapiError, *dto.Usage) {
 	var usage dto.Usage
 	scanner := bufio.NewScanner(resp.Body)
 	scanner.Split(bufio.ScanLines)
@@ -175,7 +175,7 @@ func aliStreamHandler(c *gin.Context, resp *http.Response) (*types.NewAPIError, 
 	return nil, &usage
 }
 
-func aliHandler(c *gin.Context, resp *http.Response) (*types.NewAPIError, *dto.Usage) {
+func aliHandler(c *gin.Context, resp *http.Response) (*types.NewapiError, *dto.Usage) {
 	var aliResponse AliResponse
 	responseBody, err := io.ReadAll(resp.Body)
 	if err != nil {

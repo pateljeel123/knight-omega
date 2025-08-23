@@ -72,7 +72,7 @@ func SearchUserTokens(userId int, keyword string, token string) (tokens []*Token
 
 func ValidateUserToken(key string) (token *Token, err error) {
 	if key == "" {
-		return nil, errors.New("未提供令牌")
+		return nil, errors.New("No token provided")
 	}
 	token, err = GetTokenByKey(key, false)
 	if err == nil {

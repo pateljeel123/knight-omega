@@ -33,7 +33,7 @@ func getAndValidateClaudeRequest(c *gin.Context) (textRequest *dto.ClaudeRequest
 	return textRequest, nil
 }
 
-func ClaudeHelper(c *gin.Context) (newAPIError *types.NewAPIError) {
+func ClaudeHelper(c *gin.Context) (NewapiError *types.NewapiError) {
 
 	relayInfo := relaycommon.GenRelayInfoClaude(c)
 
@@ -64,13 +64,13 @@ func ClaudeHelper(c *gin.Context) (newAPIError *types.NewAPIError) {
 	}
 
 	// pre-consume quota 预消耗配额
-	preConsumedQuota, userQuota, newAPIError := preConsumeQuota(c, priceData.ShouldPreConsumedQuota, relayInfo)
+	preConsumedQuota, userQuota, NewapiError := preConsumeQuota(c, priceData.ShouldPreConsumedQuota, relayInfo)
 
-	if newAPIError != nil {
-		return newAPIError
+	if NewapiError != nil {
+		return NewapiError
 	}
 	defer func() {
-		if newAPIError != nil {
+		if NewapiError != nil {
 			returnPreConsumedQuota(c, relayInfo, userQuota, preConsumedQuota)
 		}
 	}()
@@ -132,19 +132,19 @@ func ClaudeHelper(c *gin.Context) (newAPIError *types.NewAPIError) {
 		httpResp = resp.(*http.Response)
 		relayInfo.IsStream = relayInfo.IsStream || strings.HasPrefix(httpResp.Header.Get("Content-Type"), "text/event-stream")
 		if httpResp.StatusCode != http.StatusOK {
-			newAPIError = service.RelayErrorHandler(httpResp, false)
+			NewapiError = service.RelayErrorHandler(httpResp, false)
 			// reset status code 重置状态码
-			service.ResetStatusCode(newAPIError, statusCodeMappingStr)
-			return newAPIError
+			service.ResetStatusCode(NewapiError, statusCodeMappingStr)
+			return NewapiError
 		}
 	}
 
-	usage, newAPIError := adaptor.DoResponse(c, httpResp, relayInfo)
+	usage, NewapiError := adaptor.DoResponse(c, httpResp, relayInfo)
 	//log.Printf("usage: %v", usage)
-	if newAPIError != nil {
+	if NewapiError != nil {
 		// reset status code 重置状态码
-		service.ResetStatusCode(newAPIError, statusCodeMappingStr)
-		return newAPIError
+		service.ResetStatusCode(NewapiError, statusCodeMappingStr)
+		return NewapiError
 	}
 	service.PostClaudeConsumeQuota(c, relayInfo, usage.(*dto.Usage), preConsumedQuota, userQuota, priceData, "")
 	return nil

@@ -105,7 +105,7 @@ func trimModelThinking(modelName string) string {
 	return modelName
 }
 
-func GeminiHelper(c *gin.Context) (newAPIError *types.NewAPIError) {
+func GeminiHelper(c *gin.Context) (NewapiError *types.NewapiError) {
 	req, err := getAndValidateGeminiRequest(c)
 	if err != nil {
 		common.LogError(c, fmt.Sprintf("getAndValidateGeminiRequest error: %s", err.Error()))
@@ -163,12 +163,12 @@ func GeminiHelper(c *gin.Context) (newAPIError *types.NewAPIError) {
 	}
 
 	// pre consume quota
-	preConsumedQuota, userQuota, newAPIError := preConsumeQuota(c, priceData.ShouldPreConsumedQuota, relayInfo)
-	if newAPIError != nil {
-		return newAPIError
+	preConsumedQuota, userQuota, NewapiError := preConsumeQuota(c, priceData.ShouldPreConsumedQuota, relayInfo)
+	if NewapiError != nil {
+		return NewapiError
 	}
 	defer func() {
-		if newAPIError != nil {
+		if NewapiError != nil {
 			returnPreConsumedQuota(c, relayInfo, userQuota, preConsumedQuota)
 		}
 	}()
@@ -216,10 +216,10 @@ func GeminiHelper(c *gin.Context) (newAPIError *types.NewAPIError) {
 		httpResp = resp.(*http.Response)
 		relayInfo.IsStream = relayInfo.IsStream || strings.HasPrefix(httpResp.Header.Get("Content-Type"), "text/event-stream")
 		if httpResp.StatusCode != http.StatusOK {
-			newAPIError = service.RelayErrorHandler(httpResp, false)
+			NewapiError = service.RelayErrorHandler(httpResp, false)
 			// reset status code 重置状态码
-			service.ResetStatusCode(newAPIError, statusCodeMappingStr)
-			return newAPIError
+			service.ResetStatusCode(NewapiError, statusCodeMappingStr)
+			return NewapiError
 		}
 	}
 

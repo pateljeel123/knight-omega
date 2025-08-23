@@ -1,6 +1,7 @@
 package model
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"one-api/common"
@@ -66,23 +67,50 @@ var LOG_DB *gorm.DB
 
 func CreateRootAccountIfNeed() error {
 	var user User
-	//if user.Status != common.UserStatusEnabled {
-	if err := DB.First(&user).Error; err != nil {
-		common.SysLog("no user exists, create a root user for you: username is root, password is 123456")
-		hashedPassword, err := common.Password2Hash("123456")
-		if err != nil {
-			return err
+	// Try to find the root user, including soft-deleted ones
+	err := DB.Unscoped().Where("role = ?", common.RoleRootUser).First(&user).Error
+
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			// No root user exists, create a new one
+			common.SysLog("no root user exists, creating a root user: username is root, password is 123456")
+			hashedPassword, err := common.Password2Hash("123456")
+			if err != nil {
+				return fmt.Errorf("failed to hash password: %w", err)
+			}
+			rootUser := User{
+				Username:    "root",
+				Password:    hashedPassword,
+				Role:        common.RoleRootUser,
+				Status:      common.UserStatusEnabled,
+				DisplayName: "Root User",
+				AccessToken: nil,
+				Quota:       100000000,
+			}
+			if err := DB.Create(&rootUser).Error; err != nil {
+				return fmt.Errorf("failed to create root user: %w", err)
+			}
+			return nil
 		}
-		rootUser := User{
-			Username:    "root",
-			Password:    hashedPassword,
-			Role:        common.RoleRootUser,
-			Status:      common.UserStatusEnabled,
-			DisplayName: "Root User",
-			AccessToken: nil,
-			Quota:       100000000,
+		// Other database error
+		return fmt.Errorf("failed to check for root user: %w", err)
+	}
+
+	// Root user found, check its status
+	if user.DeletedAt.Valid {
+		common.SysLog("root user is soft-deleted, restoring it.")
+		user.DeletedAt = gorm.DeletedAt{} // Clear DeletedAt to restore
+		if err := DB.Save(&user).Error; err != nil {
+			return fmt.Errorf("failed to restore soft-deleted root user: %w", err)
 		}
-		DB.Create(&rootUser)
+	}
+
+	if user.Status != common.UserStatusEnabled {
+		common.SysLog("root user is disabled, enabling it.")
+		user.Status = common.UserStatusEnabled
+		if err := DB.Save(&user).Error; err != nil {
+			return fmt.Errorf("failed to enable root user: %w", err)
+		}
 	}
 	return nil
 }

@@ -419,7 +419,13 @@ func (user *User) ValidateAndFill() (err error) {
 		return errors.New("用户名或密码为空")
 	}
 	// find buy username or email
-	DB.Where("username = ? OR email = ?", username, username).First(user)
+	err = DB.Where("username = ? OR email = ?", username, username).First(user).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return errors.New("user not found")
+		}
+		return err // return other errors
+	}
 	okay := common.ValidatePasswordAndHash(password, user.Password)
 	if !okay || user.Status != common.UserStatusEnabled {
 		return errors.New("用户名或密码错误，或用户已被封禁")

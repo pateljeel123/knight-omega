@@ -12,7 +12,7 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-func WssHelper(c *gin.Context, ws *websocket.Conn) (newAPIError *types.NewAPIError) {
+func WssHelper(c *gin.Context, ws *websocket.Conn) (NewapiError *types.NewapiError) {
 	relayInfo := relaycommon.GenRelayInfoWs(c, ws)
 
 	// get & validate textRequest 获取并验证文本请求
@@ -33,13 +33,13 @@ func WssHelper(c *gin.Context, ws *websocket.Conn) (newAPIError *types.NewAPIErr
 	}
 
 	// pre-consume quota 预消耗配额
-	preConsumedQuota, userQuota, newAPIError := preConsumeQuota(c, priceData.ShouldPreConsumedQuota, relayInfo)
-	if newAPIError != nil {
-		return newAPIError
+	preConsumedQuota, userQuota, NewapiError := preConsumeQuota(c, priceData.ShouldPreConsumedQuota, relayInfo)
+	if NewapiError != nil {
+		return NewapiError
 	}
 
 	defer func() {
-		if newAPIError != nil {
+		if NewapiError != nil {
 			returnPreConsumedQuota(c, relayInfo, userQuota, preConsumedQuota)
 		}
 	}()
@@ -64,11 +64,11 @@ func WssHelper(c *gin.Context, ws *websocket.Conn) (newAPIError *types.NewAPIErr
 		defer relayInfo.TargetWs.Close()
 	}
 
-	usage, newAPIError := adaptor.DoResponse(c, nil, relayInfo)
-	if newAPIError != nil {
+	usage, NewapiError := adaptor.DoResponse(c, nil, relayInfo)
+	if NewapiError != nil {
 		// reset status code 重置状态码
-		service.ResetStatusCode(newAPIError, statusCodeMappingStr)
-		return newAPIError
+		service.ResetStatusCode(NewapiError, statusCodeMappingStr)
+		return NewapiError
 	}
 	service.PostWssConsumeQuota(c, relayInfo, relayInfo.UpstreamModelName, usage.(*dto.RealtimeUsage), preConsumedQuota,
 		userQuota, priceData, "")

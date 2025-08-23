@@ -47,7 +47,7 @@ func getInputTokens(req *dto.OpenAIResponsesRequest, info *relaycommon.RelayInfo
 	return inputTokens
 }
 
-func ResponsesHelper(c *gin.Context) (newAPIError *types.NewAPIError) {
+func ResponsesHelper(c *gin.Context) (NewapiError *types.NewapiError) {
 	req, err := getAndValidateResponsesRequest(c)
 	if err != nil {
 		common.LogError(c, fmt.Sprintf("getAndValidateResponsesRequest error: %s", err.Error()))
@@ -82,12 +82,12 @@ func ResponsesHelper(c *gin.Context) (newAPIError *types.NewAPIError) {
 		return types.NewError(err, types.ErrorCodeModelPriceError)
 	}
 	// pre consume quota
-	preConsumedQuota, userQuota, newAPIError := preConsumeQuota(c, priceData.ShouldPreConsumedQuota, relayInfo)
-	if newAPIError != nil {
-		return newAPIError
+	preConsumedQuota, userQuota, NewapiError := preConsumeQuota(c, priceData.ShouldPreConsumedQuota, relayInfo)
+	if NewapiError != nil {
+		return NewapiError
 	}
 	defer func() {
-		if newAPIError != nil {
+		if NewapiError != nil {
 			returnPreConsumedQuota(c, relayInfo, userQuota, preConsumedQuota)
 		}
 	}()
@@ -146,18 +146,18 @@ func ResponsesHelper(c *gin.Context) (newAPIError *types.NewAPIError) {
 		httpResp = resp.(*http.Response)
 
 		if httpResp.StatusCode != http.StatusOK {
-			newAPIError = service.RelayErrorHandler(httpResp, false)
+			NewapiError = service.RelayErrorHandler(httpResp, false)
 			// reset status code 重置状态码
-			service.ResetStatusCode(newAPIError, statusCodeMappingStr)
-			return newAPIError
+			service.ResetStatusCode(NewapiError, statusCodeMappingStr)
+			return NewapiError
 		}
 	}
 
-	usage, newAPIError := adaptor.DoResponse(c, httpResp, relayInfo)
-	if newAPIError != nil {
+	usage, NewapiError := adaptor.DoResponse(c, httpResp, relayInfo)
+	if NewapiError != nil {
 		// reset status code 重置状态码
-		service.ResetStatusCode(newAPIError, statusCodeMappingStr)
-		return newAPIError
+		service.ResetStatusCode(NewapiError, statusCodeMappingStr)
+		return NewapiError
 	}
 
 	if strings.HasPrefix(relayInfo.OriginModelName, "gpt-4o-audio") {

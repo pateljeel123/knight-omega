@@ -10,7 +10,7 @@ type GeneralSetting struct {
 
 // 默认配置
 var generalSetting = GeneralSetting{
-	DocsLink:            "https://docs.newapi.pro",
+	DocsLink:            "http://localhost:5173/",
 	PingIntervalEnabled: false,
 	PingIntervalSeconds: 60,
 }

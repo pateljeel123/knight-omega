@@ -56,7 +56,7 @@ func getAndValidAudioRequest(c *gin.Context, info *relaycommon.RelayInfo) (*dto.
 	return audioRequest, nil
 }
 
-func AudioHelper(c *gin.Context) (newAPIError *types.NewAPIError) {
+func AudioHelper(c *gin.Context) (NewapiError *types.NewapiError) {
 	relayInfo := relaycommon.GenRelayInfoOpenAIAudio(c)
 	audioRequest, err := getAndValidAudioRequest(c, relayInfo)
 
@@ -114,18 +114,18 @@ func AudioHelper(c *gin.Context) (newAPIError *types.NewAPIError) {
 	if resp != nil {
 		httpResp = resp.(*http.Response)
 		if httpResp.StatusCode != http.StatusOK {
-			newAPIError = service.RelayErrorHandler(httpResp, false)
+			NewapiError = service.RelayErrorHandler(httpResp, false)
 			// reset status code 重置状态码
-			service.ResetStatusCode(newAPIError, statusCodeMappingStr)
-			return newAPIError
+			service.ResetStatusCode(NewapiError, statusCodeMappingStr)
+			return NewapiError
 		}
 	}
 
-	usage, newAPIError := adaptor.DoResponse(c, httpResp, relayInfo)
-	if newAPIError != nil {
+	usage, NewapiError := adaptor.DoResponse(c, httpResp, relayInfo)
+	if NewapiError != nil {
 		// reset status code 重置状态码
-		service.ResetStatusCode(newAPIError, statusCodeMappingStr)
-		return newAPIError
+		service.ResetStatusCode(NewapiError, statusCodeMappingStr)
+		return NewapiError
 	}
 
 	postConsumeQuota(c, relayInfo, usage.(*dto.Usage), preConsumedQuota, userQuota, priceData, "")

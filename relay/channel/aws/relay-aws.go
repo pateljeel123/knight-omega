@@ -76,7 +76,7 @@ func awsModelID(requestModel string) string {
 	return requestModel
 }
 
-func awsHandler(c *gin.Context, info *relaycommon.RelayInfo, requestMode int) (*types.NewAPIError, *dto.Usage) {
+func awsHandler(c *gin.Context, info *relaycommon.RelayInfo, requestMode int) (*types.NewapiError, *dto.Usage) {
 	awsCli, err := newAwsClient(c, info)
 	if err != nil {
 		return types.NewError(err, types.ErrorCodeChannelAwsClientError), nil
@@ -127,7 +127,7 @@ func awsHandler(c *gin.Context, info *relaycommon.RelayInfo, requestMode int) (*
 	return nil, claudeInfo.Usage
 }
 
-func awsStreamHandler(c *gin.Context, resp *http.Response, info *relaycommon.RelayInfo, requestMode int) (*types.NewAPIError, *dto.Usage) {
+func awsStreamHandler(c *gin.Context, resp *http.Response, info *relaycommon.RelayInfo, requestMode int) (*types.NewapiError, *dto.Usage) {
 	awsCli, err := newAwsClient(c, info)
 	if err != nil {
 		return types.NewError(err, types.ErrorCodeChannelAwsClientError), nil

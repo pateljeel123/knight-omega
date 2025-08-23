@@ -108,7 +108,7 @@ func getAndValidImageRequest(c *gin.Context, info *relaycommon.RelayInfo) (*dto.
 	return imageRequest, nil
 }
 
-func ImageHelper(c *gin.Context) (newAPIError *types.NewAPIError) {
+func ImageHelper(c *gin.Context) (NewapiError *types.NewapiError) {
 	relayInfo := relaycommon.GenRelayInfoImage(c)
 
 	imageRequest, err := getAndValidImageRequest(c, relayInfo)
@@ -133,12 +133,12 @@ func ImageHelper(c *gin.Context) (newAPIError *types.NewAPIError) {
 		// modelRatio 16 = modelPrice $0.04
 		// per 1 modelRatio = $0.04 / 16
 		// priceData.ModelPrice = 0.0025 * priceData.ModelRatio
-		preConsumedQuota, userQuota, newAPIError = preConsumeQuota(c, priceData.ShouldPreConsumedQuota, relayInfo)
-		if newAPIError != nil {
-			return newAPIError
+		preConsumedQuota, userQuota, NewapiError = preConsumeQuota(c, priceData.ShouldPreConsumedQuota, relayInfo)
+		if NewapiError != nil {
+			return NewapiError
 		}
 		defer func() {
-			if newAPIError != nil {
+			if NewapiError != nil {
 				returnPreConsumedQuota(c, relayInfo, userQuota, preConsumedQuota)
 			}
 		}()
@@ -216,18 +216,18 @@ func ImageHelper(c *gin.Context) (newAPIError *types.NewAPIError) {
 		httpResp = resp.(*http.Response)
 		relayInfo.IsStream = relayInfo.IsStream || strings.HasPrefix(httpResp.Header.Get("Content-Type"), "text/event-stream")
 		if httpResp.StatusCode != http.StatusOK {
-			newAPIError = service.RelayErrorHandler(httpResp, false)
+			NewapiError = service.RelayErrorHandler(httpResp, false)
 			// reset status code 重置状态码
-			service.ResetStatusCode(newAPIError, statusCodeMappingStr)
-			return newAPIError
+			service.ResetStatusCode(NewapiError, statusCodeMappingStr)
+			return NewapiError
 		}
 	}
 
-	usage, newAPIError := adaptor.DoResponse(c, httpResp, relayInfo)
-	if newAPIError != nil {
+	usage, NewapiError := adaptor.DoResponse(c, httpResp, relayInfo)
+	if NewapiError != nil {
 		// reset status code 重置状态码
-		service.ResetStatusCode(newAPIError, statusCodeMappingStr)
-		return newAPIError
+		service.ResetStatusCode(NewapiError, statusCodeMappingStr)
+		return NewapiError
 	}
 
 	if usage.(*dto.Usage).TotalTokens == 0 {
