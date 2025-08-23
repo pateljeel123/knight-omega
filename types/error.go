@@ -36,7 +36,7 @@ const (
 	ErrorCodeInvalidRequest         ErrorCode = "invalid_request"
 	ErrorCodeSensitiveWordsDetected ErrorCode = "sensitive_words_detected"
 
-	// new api error
+	// Knight Omega error
 	ErrorCodeCountTokenFailed  ErrorCode = "count_token_failed"
 	ErrorCodeModelPriceError   ErrorCode = "model_price_error"
 	ErrorCodeInvalidApiType    ErrorCode = "invalid_api_type"

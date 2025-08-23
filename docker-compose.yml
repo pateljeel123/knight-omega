@@ -1,9 +1,9 @@
 version: '3.4'
 
 services:
-  new-api:
-    image: calciumion/new-api:latest
-    container_name: new-api
+  Knight Omega:
+    image: calciumion/Knight Omega:latest
+    container_name: Knight Omega
     restart: always
     command: --log-dir /app/logs
     ports:
@@ -12,7 +12,7 @@ services:
       - ./data:/data
       - ./logs:/app/logs
     environment:
-      - SQL_DSN=root:123456@tcp(mysql:3306)/new-api  # Point to the mysql service
+      - SQL_DSN=root:123456@tcp(mysql:3306)/Knight Omega  # Point to the mysql service
       - REDIS_CONN_STRING=redis://redis
       - TZ=Asia/Shanghai
       - ERROR_LOG_ENABLED=true # 是否启用错误日志记录
@@ -42,7 +42,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 123456  # Ensure this matches the password in SQL_DSN
-      MYSQL_DATABASE: new-api
+      MYSQL_DATABASE: Knight Omega
     volumes:
       - mysql_data:/var/lib/mysql
     # ports:

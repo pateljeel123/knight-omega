@@ -66,9 +66,9 @@ const FooterBar = () => {
             </div>
 
             <div className="text-left">
-              <p className="!text-semi-color-text-0 font-semibold mb-5">{t('基于New API的项目')}</p>
+              <p className="!text-semi-color-text-0 font-semibold mb-5">{t('基于Knight Omega的项目')}</p>
               <div className="flex flex-col gap-4">
-                <a href="https://github.com/Calcium-Ion/new-api-horizon" target="_blank" rel="noopener noreferrer" className="!text-semi-color-text-1">new-api-horizon</a>
+                <a href="https://github.com/Calcium-Ion/Knight Omega-horizon" target="_blank" rel="noopener noreferrer" className="!text-semi-color-text-1">Knight Omega-horizon</a>
                 {/* <a href="https://github.com/VoAPI/VoAPI" target="_blank" rel="noopener noreferrer" className="!text-semi-color-text-1">VoAPI</a> */}
               </div>
             </div>
@@ -83,7 +83,7 @@ const FooterBar = () => {
 
         <div className="text-sm">
           <span className="!text-semi-color-text-1">{t('设计与开发由')} </span>
-          <a href="https://github.com/QuantumNous/new-api" target="_blank" rel="noopener noreferrer" className="!text-semi-color-primary font-medium">New API</a>
+          <a href="https://github.com/QuantumNous/Knight Omega" target="_blank" rel="noopener noreferrer" className="!text-semi-color-primary font-medium">Knight Omega</a>
           <span className="!text-semi-color-text-1"> & </span>
           <a href="https://github.com/songquanpeng/one-api" target="_blank" rel="noopener noreferrer" className="!text-semi-color-primary font-medium">One API</a>
         </div>

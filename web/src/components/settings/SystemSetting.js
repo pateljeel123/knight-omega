@@ -517,11 +517,11 @@ const SystemSetting = () => {
                   <Text>
                     （支持{' '}
                     <a
-                      href='https://github.com/Calcium-Ion/new-api-worker'
+                      href='https://github.com/Calcium-Ion/Knight Omega-worker'
                       target='_blank'
                       rel='noreferrer'
                     >
-                      new-api-worker
+                      Knight Omega-worker
                     </a>
                     ）
                   </Text>

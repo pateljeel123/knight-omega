@@ -138,7 +138,7 @@ const EditChannel = (props) => {
       Modal.confirm({
         title: '警告',
         content:
-          '不需要在末尾加/v1，New API会自动处理，添加后可能导致请求失败，是否继续？',
+          '不需要在末尾加/v1，Knight Omega会自动处理，添加后可能导致请求失败，是否继续？',
         onOk: () => {
           setInputs((inputs) => ({ ...inputs, [name]: value }));
         },
@@ -1154,7 +1154,7 @@ const EditChannel = (props) => {
                     <>
                       <Banner
                         type='warning'
-                        description={t('如果你对接的是上游One API或者New API等转发项目，请使用OpenAI类型，不要使用此类型，除非你知道你在做什么。')}
+                        description={t('如果你对接的是上游One API或者Knight Omega等转发项目，请使用OpenAI类型，不要使用此类型，除非你知道你在做什么。')}
                         className='!rounded-lg'
                       />
                       <div>
@@ -1185,7 +1185,7 @@ const EditChannel = (props) => {
                         placeholder={t('此项可选，用于通过自定义API地址来进行 API 调用，末尾不要带/v1和/')}
                         onChange={(value) => handleInputChange('base_url', value)}
                         showClear
-                        extraText={t('对于官方渠道，new-api已经内置地址，除非是第三方代理站点或者Azure的特殊接入地址，否则不需要填写')}
+                        extraText={t('对于官方渠道，Knight Omega已经内置地址，除非是第三方代理站点或者Azure的特殊接入地址，否则不需要填写')}
                       />
                     </div>
                   )}
@@ -1443,7 +1443,7 @@ const EditChannel = (props) => {
                         </Text>
                         <Text
                           className="!text-semi-color-primary cursor-pointer"
-                          onClick={() => window.open('https://github.com/QuantumNous/new-api/blob/main/docs/channel/other_setting.md')}
+                          onClick={() => window.open('https://github.com/QuantumNous/Knight Omega/blob/main/docs/channel/other_setting.md')}
                         >
                           {t('设置说明')}
                         </Text>
