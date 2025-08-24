@@ -28,15 +28,15 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{ secrets.jeelpatel123}}
+          password: ${{ secrets.dckr_pat_qGGGwRl9sWCTa8o5rZbGYyhBRM4 }}
 
       - name: Log in to the Container registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ pateljeel123 }} b
+          password: ${{ secrets.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 }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -46,7 +46,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            calciumion/Knight Omega
+            calciumion/new-api
             ghcr.io/${{ github.repository }}
           tags: |
             type=raw,value=alpha
