@@ -44,11 +44,11 @@ const MessageContent = ({
       const textContent = message.content.find(item => item.type === 'text');
       errorText = textContent && textContent.text && typeof textContent.text === 'string'
         ? textContent.text
-        : t('请求发生错误');
+        : t('Request failed');
     } else if (typeof message.content === 'string') {
       errorText = message.content;
     } else {
-      errorText = t('请求发生错误');
+      errorText = t('Request failed');
     }
 
     return (
@@ -160,7 +160,7 @@ const MessageContent = ({
               <Typography.Text className="text-white text-xs font-bold">S</Typography.Text>
             </div>
             <Typography.Text className="text-amber-700 text-xs sm:text-sm font-medium">
-              {t('系统消息')}
+              {t('System Message')}
             </Typography.Text>
           </div>
         </div>
@@ -181,7 +181,7 @@ const MessageContent = ({
           <TextArea
             value={editValue}
             onChange={(value) => onEditValueChange(value)}
-            placeholder={t('请输入消息内容...')}
+            placeholder={t('Please enter message content...')}
             autosize={{ minRows: 3, maxRows: 12 }}
             style={{
               resize: 'vertical',
@@ -199,7 +199,7 @@ const MessageContent = ({
               onClick={onEditCancel}
               className="flex-1"
             >
-              {t('取消')}
+              {t('Cancel')}
             </Button>
             <Button
               size="small"
@@ -210,7 +210,7 @@ const MessageContent = ({
               disabled={!editValue || editValue.trim() === ''}
               className="flex-1"
             >
-              {t('保存')}
+              {t('Save')}
             </Button>
           </div>
         </div>
@@ -228,7 +228,7 @@ const MessageContent = ({
                       <div key={index} className="max-w-sm">
                         <img
                           src={imgItem.image_url.url}
-                          alt={`用户上传的图片 ${index + 1}`}
+                          alt={`User uploaded image ${index + 1}`}
                           className="rounded-lg max-w-full h-auto shadow-sm border"
                           style={{ maxHeight: '300px' }}
                           onError={(e) => {
@@ -240,7 +240,7 @@ const MessageContent = ({
                           className="text-red-500 text-sm p-2 bg-red-50 rounded-lg border border-red-200"
                           style={{ display: 'none' }}
                         >
-                          图片加载失败: {imgItem.image_url.url}
+                          Image loading failed: {imgItem.image_url.url}
                         </div>
                       </div>
                     ))}

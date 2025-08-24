@@ -56,11 +56,11 @@ const Setup = () => {
           window.location.href = '/';
         }
       } else {
-        showError(t('获取初始化状态失败'));
+        showError(t('Failed to get initialization status'));
       }
     } catch (error) {
       console.error('Failed to fetch setup status:', error);
-      showError(t('获取初始化状态失败'));
+      showError(t('Failed to get initialization status'));
     }
   };
 
@@ -81,7 +81,7 @@ const Setup = () => {
     // For root_init=false, validate admin username and password
     if (!setupStatus.root_init) {
       if (!values.username || !values.username.trim()) {
-        showError(t('请输入管理员用户名'));
+        showError(t('Please enter administrator username'));
         return;
       }
 
@@ -328,7 +328,7 @@ const Setup = () => {
                         <Form.Input
                           field='username'
                           label={t('用户名')}
-                          placeholder={t('请输入管理员用户名')}
+                          placeholder={t('Please enter administrator username')}
                           prefix={<IconUser />}
                           showClear
                           size='large'
@@ -342,7 +342,7 @@ const Setup = () => {
                         <Form.Input
                           field='password'
                           label={t('密码')}
-                          placeholder={t('请输入管理员密码')}
+                          placeholder={t('Please enter administrator password')}
                           type='password'
                           prefix={<IconLock />}
                           showClear
@@ -357,8 +357,8 @@ const Setup = () => {
                         />
                         <Form.Input
                           field='confirmPassword'
-                          label={t('确认密码')}
-                          placeholder={t('请确认管理员密码')}
+                          label={t('Confirm password')}
+                          placeholder={t('Please confirm administrator password')}
                           type='password'
                           prefix={<IconLock />}
                           showClear

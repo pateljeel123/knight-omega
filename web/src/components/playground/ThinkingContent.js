@@ -16,7 +16,7 @@ const ThinkingContent = ({
   const lastContentRef = useRef('');
 
   const isThinkingStatus = message.status === 'loading' || message.status === 'incomplete';
-  const headerText = (isThinkingStatus && !message.isThinkingComplete) ? t('思考中...') : t('思考过程');
+  const headerText = (isThinkingStatus && !message.isThinkingComplete) ? t('Thinking...') : t('Thought Process');
 
   useEffect(() => {
     if (scrollRef.current && finalExtractedThinkingContent && message.isReasoningExpanded) {
@@ -67,7 +67,7 @@ const ThinkingContent = ({
             </Typography.Text>
             {thinkingSource && (
               <Typography.Text style={{ color: 'white' }} className="text-xs mt-0.5 opacity-80 hidden sm:block">
-                来源: {thinkingSource}
+                Source: {thinkingSource}
               </Typography.Text>
             )}
           </div>
@@ -77,7 +77,7 @@ const ThinkingContent = ({
             <div className="flex items-center gap-1 sm:gap-2">
               <Loader2 style={{ color: 'white' }} className="animate-spin" size={styleState.isMobile ? 14 : 18} />
               <Typography.Text style={{ color: 'white' }} className="text-xs sm:text-sm font-medium opacity-90">
-                思考中
+                Thinking
               </Typography.Text>
             </div>
           )}

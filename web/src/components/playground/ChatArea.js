@@ -42,7 +42,7 @@ const ChatArea = ({
       bordered={false}
       bodyStyle={{ padding: 0, height: 'calc(100vh - 66px)', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
     >
-      {/* 聊天头部 */}
+      {/* Chat Header */}
       {styleState.isMobile ? (
         <div className="pt-4"></div>
       ) : (
@@ -54,10 +54,10 @@ const ChatArea = ({
               </div>
               <div>
                 <Typography.Title heading={5} className="!text-white mb-0">
-                  {t('AI 对话')}
+                  {t('AI Conversation')}
                 </Typography.Title>
                 <Typography.Text className="!text-white/80 text-sm hidden sm:inline">
-                  {inputs.model || t('选择模型开始对话')}
+                  {inputs.model || t('Select model to start the conversation')}
                 </Typography.Text>
               </div>
             </div>
@@ -70,7 +70,7 @@ const ChatArea = ({
                 size="small"
                 className="!rounded-lg !text-white/80 hover:!text-white hover:!bg-white/10"
               >
-                {showDebugPanel ? t('隐藏调试') : t('显示调试')}
+                {showDebugPanel ? t('Hide Debug') : t('Show Debug')}
               </Button>
             </div>
           </div>
@@ -103,7 +103,7 @@ const ChatArea = ({
           onStopGenerator={onStopGenerator}
           onClear={onClearMessages}
           className="h-full"
-          placeholder={t('请输入您的问题...')}
+          placeholder={t('Please enter your question...')}
         />
       </div>
     </Card>

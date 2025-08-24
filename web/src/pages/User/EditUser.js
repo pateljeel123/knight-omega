@@ -105,7 +105,7 @@ const EditUser = (props) => {
     const res = await API.put(url, payload);
     const { success, message } = res.data;
     if (success) {
-      showSuccess(t('用户信息更新成功！'));
+      showSuccess(t('User information updated successfully!'));
       props.refresh();
       props.handleClose();
     } else {
@@ -129,10 +129,10 @@ const EditUser = (props) => {
         title={
           <Space>
             <Tag color='blue' shape='circle'>
-              {t(isEdit ? '编辑' : '新建')}
+              {t(isEdit ? 'Edit' : 'New')}
             </Tag>
             <Title heading={4} className='m-0'>
-              {isEdit ? t('编辑用户') : t('创建用户')}
+              {isEdit ? t('Edit用户') : t('创建用户')}
             </Title>
           </Space>
         }
@@ -148,7 +148,7 @@ const EditUser = (props) => {
                 icon={<IconSave />}
                 loading={loading}
               >
-                {t('提交')}
+                {t('Submit')}
               </Button>
               <Button
                 theme='light'
@@ -156,7 +156,7 @@ const EditUser = (props) => {
                 onClick={handleCancel}
                 icon={<IconClose />}
               >
-                {t('取消')}
+                {t('Cancel')}
               </Button>
             </Space>
           </div>
@@ -172,15 +172,15 @@ const EditUser = (props) => {
           >
             {({ values }) => (
               <div className='p-2'>
-                {/* 基本信息 */}
+                {/* Basic Information */}
                 <Card className='!rounded-2xl shadow-sm border-0'>
                   <div className='flex items-center mb-2'>
                     <Avatar size='small' color='blue' className='mr-2 shadow-md'>
                       <IconUser size={16} />
                     </Avatar>
                     <div>
-                      <Text className='text-lg font-medium'>{t('基本信息')}</Text>
-                      <div className='text-xs text-gray-600'>{t('用户的基本账户信息')}</div>
+                      <Text className='text-lg font-medium'>{t('Basic Information')}</Text>
+                      <div className='text-xs text-gray-600'>{t('User&apos;s basic account information')}</div>
                     </div>
                   </div>
 
@@ -188,9 +188,9 @@ const EditUser = (props) => {
                     <Col span={24}>
                       <Form.Input
                         field='username'
-                        label={t('用户名')}
-                        placeholder={t('请输入新的用户名')}
-                        rules={[{ required: true, message: t('请输入用户名') }]}
+                        label={t('Username')}
+                        placeholder={t('请输入新的Username')}
+                        rules={[{ required: true, message: t('请输入Username') }]}
                         showClear
                       />
                     </Col>
@@ -198,8 +198,8 @@ const EditUser = (props) => {
                     <Col span={24}>
                       <Form.Input
                         field='password'
-                        label={t('密码')}
-                        placeholder={t('请输入新的密码，最短 8 位')}
+                        label={t('Password')}
+                        placeholder={t('请输入新的Password，最短 8 位')}
                         mode='password'
                         showClear
                       />

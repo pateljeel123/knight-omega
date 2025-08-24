@@ -33,7 +33,7 @@ const MessageActions = ({
   return (
     <div className="flex items-center gap-0.5">
       {!isLoading && (
-        <Tooltip content={shouldDisableActions ? t('操作暂时被禁用') : t('重试')} position="top">
+        <Tooltip content={shouldDisableActions ? t('Action temporarily disabled') : t('Retry')} position="top">
           <Button
             theme="borderless"
             type="tertiary"
@@ -42,13 +42,13 @@ const MessageActions = ({
             onClick={() => !shouldDisableActions && onMessageReset(message)}
             disabled={shouldDisableActions}
             className={`!rounded-full ${shouldDisableActions ? '!text-gray-300 !cursor-not-allowed' : '!text-gray-400 hover:!text-blue-600 hover:!bg-blue-50'} ${styleState.isMobile ? '!w-6 !h-6' : '!w-7 !h-7'} !p-0 transition-all`}
-            aria-label={t('重试')}
+            aria-label={t('Retry')}
           />
         </Tooltip>
       )}
 
       {message.content && (
-        <Tooltip content={t('复制')} position="top">
+        <Tooltip content={t('Copy')} position="top">
           <Button
             theme="borderless"
             type="tertiary"
@@ -56,13 +56,13 @@ const MessageActions = ({
             icon={<Copy size={styleState.isMobile ? 12 : 14} />}
             onClick={() => onMessageCopy(message)}
             className={`!rounded-full !text-gray-400 hover:!text-green-600 hover:!bg-green-50 ${styleState.isMobile ? '!w-6 !h-6' : '!w-7 !h-7'} !p-0 transition-all`}
-            aria-label={t('复制')}
+            aria-label={t('Copy')}
           />
         </Tooltip>
       )}
 
       {canEdit && (
-        <Tooltip content={shouldDisableActions ? t('操作暂时被禁用') : t('编辑')} position="top">
+        <Tooltip content={shouldDisableActions ? t('Action temporarily disabled') : t('Edit')} position="top">
           <Button
             theme="borderless"
             type="tertiary"
@@ -71,7 +71,7 @@ const MessageActions = ({
             onClick={() => !shouldDisableActions && onMessageEdit(message)}
             disabled={shouldDisableActions}
             className={`!rounded-full ${shouldDisableActions ? '!text-gray-300 !cursor-not-allowed' : '!text-gray-400 hover:!text-yellow-600 hover:!bg-yellow-50'} ${styleState.isMobile ? '!w-6 !h-6' : '!w-7 !h-7'} !p-0 transition-all`}
-            aria-label={t('编辑')}
+            aria-label={t('Edit')}
           />
         </Tooltip>
       )}
@@ -80,10 +80,10 @@ const MessageActions = ({
         <Tooltip
           content={
             shouldDisableActions
-              ? t('操作暂时被禁用')
+              ? t('Action temporarily disabled')
               : message.role === 'assistant'
-                ? t('切换为System角色')
-                : t('切换为Assistant角色')
+                ? t('Switch to System role')
+                : t('Switch to Assistant role')
           }
           position="top"
         >
@@ -95,13 +95,13 @@ const MessageActions = ({
             onClick={() => !shouldDisableActions && onRoleToggle && onRoleToggle(message)}
             disabled={shouldDisableActions}
             className={`!rounded-full ${shouldDisableActions ? '!text-gray-300 !cursor-not-allowed' : message.role === 'system' ? '!text-purple-500 hover:!text-purple-700 hover:!bg-purple-50' : '!text-gray-400 hover:!text-purple-600 hover:!bg-purple-50'} ${styleState.isMobile ? '!w-6 !h-6' : '!w-7 !h-7'} !p-0 transition-all`}
-            aria-label={message.role === 'assistant' ? t('切换为System角色') : t('切换为Assistant角色')}
+            aria-label={message.role === 'assistant' ? t('Switch to System role') : t('Switch to Assistant role')}
           />
         </Tooltip>
       )}
 
       {!isLoading && (
-        <Tooltip content={shouldDisableActions ? t('操作暂时被禁用') : t('删除')} position="top">
+        <Tooltip content={shouldDisableActions ? t('Action temporarily disabled') : t('Delete')} position="top">
           <Button
             theme="borderless"
             type="tertiary"
@@ -110,7 +110,7 @@ const MessageActions = ({
             onClick={() => !shouldDisableActions && onMessageDelete(message)}
             disabled={shouldDisableActions}
             className={`!rounded-full ${shouldDisableActions ? '!text-gray-300 !cursor-not-allowed' : '!text-gray-400 hover:!text-red-600 hover:!bg-red-50'} ${styleState.isMobile ? '!w-6 !h-6' : '!w-7 !h-7'} !p-0 transition-all`}
-            aria-label={t('删除')}
+            aria-label={t('Delete')}
           />
         </Tooltip>
       )}
